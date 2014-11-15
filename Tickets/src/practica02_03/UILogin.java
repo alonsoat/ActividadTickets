@@ -55,9 +55,6 @@ public class UILogin extends JFrame {
 	 * Create the frame.
 	 */
 	public UILogin() {
-		
-		System.out.println("Probando");
-		
 		setResizable(false);
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
