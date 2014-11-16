@@ -96,14 +96,7 @@ public class UsuarioUtil {
 		
 	}
 	
-	
-	public ArrayList<String> buscarDepartamentos(){
-		
-		
-		
-		
-		
-	}
+
 	
 	
 	
