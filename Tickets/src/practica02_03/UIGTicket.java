@@ -158,9 +158,12 @@ public class UIGTicket extends JPanel {
 		
 		
 		TicketUtil tickets_bus = new TicketUtil();
-		
-		ArrayList<Ticket> tickets = tickets_bus.buscar(Integer.parseInt(text_buscar.getText()),group.getSelection().getActionCommand(), devolverDepartamento());
-		
+		if(text_buscar.getText().equals("")){
+			i
+			
+		}else{
+			ArrayList<Ticket> tickets = tickets_bus.buscar(Integer.parseInt(text_buscar.getText()),group.getSelection().getActionCommand(), devolverDepartamento());
+		}
 		Ticket ticket;
 		
 		for(int i=0; i<tickets.size(); i++){
