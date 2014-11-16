@@ -31,7 +31,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class UIGTicket extends JPanel {
+public class UIGUsuarios extends JPanel {
 	
 	/**
 	 * 
@@ -50,7 +50,7 @@ public class UIGTicket extends JPanel {
 	 * Create the panel.
 	 * @throws SQLException 
 	 */
-	public UIGTicket(Connection conexion) throws SQLException {
+	public UIGUsuarios(Connection conexion) throws SQLException {
 		setLayout(new BorderLayout(0, 0));
 		
 		mostrarTabla(conexion);
@@ -150,34 +150,27 @@ public class UIGTicket extends JPanel {
 		table.setModel(modelo);
 		
 		modelo.addColumn("ID");
-		modelo.addColumn("Estado");
-		modelo.addColumn("Fecha Apertura");
-		modelo.addColumn("Fecha Cerrada");
-		modelo.addColumn("Usuario");
+		modelo.addColumn("Nombre");
+		modelo.addColumn("Mail");
+		modelo.addColumn("Password");
 		modelo.addColumn("Departamento");
+		modelo.addColumn("Administrador");
 		
+		UsuarioUtil usuarios_bus = new UsuarioUtil();
 		
-		TicketUtil tickets_bus = new TicketUtil();
+		ArrayList<Usuario> usuarios = usuarios_bus.buscar(text_buscar.getText(),group.getSelection().getActionCommand(), devolverDepartamento());
 		
-		ArrayList<Ticket> tickets = tickets_bus.buscar(Integer.parseInt(text_buscar.getText()),group.getSelection().getActionCommand(), devolverDepartamento());
+		Usuario usuario;
 		
-		Ticket ticket;
-		
-		for(int i=0; i<tickets.size(); i++){
+		for(int i=0; i<usuarios.size(); i++){
 			
-			Object[] fila = new Object[6];
-			ticket = tickets.get(i);
-			fila[0] = ticket.getId();
-			fila[1] = ticket.getEstado();
-			fila[2] = ticket.getFecha_apert();
-			fila[3] = ticket.getFecha_cerr();
-			
-			Usuario usuario = new Usuario();
-			UsuarioUtil usuutil = new UsuarioUtil();
-			usuario = usuutil.getUsuarioTicket(conexion, ticket.getId());
-			
-			fila[4] = usuario.getNombre();
-			fila[5] = usuario.getDepartament();
+			Object[] fila = new Object[5];
+			usuario = usuarios.get(i);
+			fila[0] = usuario.getId();
+			fila[1] = usuario.getNombre();
+			fila[2] = usuario.getMail();
+			fila[3] = usuario.getDepartament();
+			fila[4] = usuario.isAdmin();
 					
 			modelo.addRow(fila);
 		}
