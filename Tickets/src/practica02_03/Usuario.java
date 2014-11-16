@@ -185,13 +185,13 @@ public class Usuario {
 		
 		try{
 			
-			String sql = "SELECT * FROM usuaris WHERE nom LIKE ? AND pass LIKE SHA1(?)";
+			String sql = "SELECT * FROM usuaris WHERE nom LIKE ? AND pass LIKE SHA1(?);";
 			
 			preparedStatament = conexion.prepareStatement(sql);
 			
 			
 			preparedStatament.setString(1, this.nombre);
-			preparedStatament.setString(1, this.pass);
+			preparedStatament.setString(2, this.pass);
 			
 			ResultSet rs = preparedStatament.executeQuery();
 			

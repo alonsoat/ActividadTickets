@@ -145,7 +145,7 @@ public class UIGTicket extends JPanel {
 		modelo.addColumn("Fecha Cerrada");
 		modelo.addColumn("Usuario");
 		modelo.addColumn("Departamento");
-		
+		/*
 		TicketUtil tickets_bus = new TicketUtil();
 		
 		ArrayList<Ticket> tickets = tickets_bus.buscar();
@@ -170,7 +170,7 @@ public class UIGTicket extends JPanel {
 					
 			modelo.addRow(fila);
 		}
-
+*/
 		add(table, BorderLayout.CENTER);
 		
 	}
