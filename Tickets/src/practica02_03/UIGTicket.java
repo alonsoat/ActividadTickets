@@ -42,7 +42,7 @@ public class UIGTicket extends JPanel {
 	private String[] depart = {"Todas", "Administració", "Informàtica", "Diseny", "Màrketing"};
 	private ButtonGroup group = new ButtonGroup();
 	private DefaultTableModel modelo;
-	private JComboBox<String> comboBox;
+	private JComboBox<String> combo_activas;
 	
 	
 	
@@ -115,8 +115,14 @@ public class UIGTicket extends JPanel {
 		rdbtn_cerradas.setSelected(false);
 		panel_estado.add(rdbtn_cerradas);
 		
+		JRadioButton rdbtn_todas = new JRadioButton("Todas");
+		rdbtn_cerradas.setBackground(Color.WHITE);
+		rdbtn_cerradas.setSelected(false);
+		panel_estado.add(rdbtn_todas);
+		
 		group.add(rdbtn_activas);
 		group.add(rdbtn_cerradas);
+		group.add(rdbtn_todas);
 		
 		JPanel panel_departa = new JPanel();
 		panel_departa.setBackground(Color.WHITE);
@@ -127,8 +133,8 @@ public class UIGTicket extends JPanel {
 		gbc_panel_departa.gridy = 0;
 		panel_filtro.add(panel_departa, gbc_panel_departa);
 		
-		comboBox = new JComboBox<String>(depart);
-		panel_departa.add(comboBox);
+		combo_activas = new JComboBox(depart);
+		panel_departa.add(combo_activas);
 		
 
 	}
@@ -145,10 +151,11 @@ public class UIGTicket extends JPanel {
 		modelo.addColumn("Fecha Cerrada");
 		modelo.addColumn("Usuario");
 		modelo.addColumn("Departamento");
-		/*
+		
+		
 		TicketUtil tickets_bus = new TicketUtil();
 		
-		ArrayList<Ticket> tickets = tickets_bus.buscar();
+		ArrayList<Ticket> tickets = tickets_bus.buscar(group.g);
 		
 		Ticket ticket;
 		
@@ -170,7 +177,7 @@ public class UIGTicket extends JPanel {
 					
 			modelo.addRow(fila);
 		}
-*/
+
 		add(table, BorderLayout.CENTER);
 		
 	}

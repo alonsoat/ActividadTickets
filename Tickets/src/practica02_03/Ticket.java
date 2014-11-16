@@ -8,10 +8,6 @@ import java.util.GregorianCalendar;
 
 public class Ticket {
 
-
-
-
-
 	private String estado,fecha_apert,fecha_cerr;
 	private int id;
 		
