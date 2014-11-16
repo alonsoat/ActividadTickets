@@ -25,25 +25,23 @@ public class Ticket {
 	}
 	
 	
-	public int insertar(Connection conexion){
+	public void insertar(Connection conexion){
 		
 		int id_ticket = 0;
 		
 		try{
 			
-		String sql = "INSERT INTO tickets (estat,data_obri,data_tanca) VALUES (?,?,?);";
+		String sql = "INSERT INTO tickets (estat) VALUES (?);";
 		
 		
 		preparedStatament = conexion.prepareStatement(sql);
 		
 		
-		preparedStatament.setString(1,"Alberto");
-		preparedStatament.setString(2,"pepe");
-		preparedStatament.setString(3,"1235");
-		
+		preparedStatament.setString(1,this.estado);
+	
 		preparedStatament.executeUpdate();
 		
-		try (ResultSet cogerId = preparedStatament.getGeneratedKeys()) {
+		/*try (ResultSet cogerId = preparedStatament.getGeneratedKeys()) {
 
 			if (cogerId.next()) {
 
@@ -55,7 +53,7 @@ public class Ticket {
 
 			}
 
-		}
+		}*/
 		
 		preparedStatament.close();
 	
@@ -68,7 +66,7 @@ public class Ticket {
 			
 		}
 		
-		return id_ticket;
+		//return id_ticket;
 	
 		
 		
@@ -112,11 +110,11 @@ public class Ticket {
 			
 			try{
 				
-				String sql = "UPDATE tickets SET estat=?,data_tanca==? WHERE id = ?";
+				String sql = "UPDATE tickets SET estat=?, WHERE id = ?";
 				preparedStatament = conexion.prepareStatement(sql);
 				
-				preparedStatament.setString(1,"Pepe");
-				preparedStatament.setString(2,"alberto_a@hotmail.es");
+				preparedStatament.setString(1,this.estado);
+				preparedStatament.setInt(2,this.id);
 				
 				preparedStatament.executeUpdate();
 				
