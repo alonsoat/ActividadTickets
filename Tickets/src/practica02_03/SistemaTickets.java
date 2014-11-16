@@ -47,7 +47,7 @@ public class SistemaTickets extends JFrame {
 		setResizable(false);
 		setTitle("Gestor de Tickets");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 740, 500);
+		setBounds(100, 100, 800, 500);
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		

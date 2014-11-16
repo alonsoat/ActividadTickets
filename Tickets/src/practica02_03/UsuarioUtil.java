@@ -59,7 +59,12 @@ public class UsuarioUtil {
 		
 		try{
 			
-			String sql = "SELECT u.* FROM usuaris AS u, missatges AS m , tickets AS t WHERE t.id = m.id_ticket AND m.id_usuari = u.id AND t.id = ? AND admin = 0;";
+			String sql = "SELECT u.* "
+					+ "FROM usuaris AS u, missatges AS m , tickets AS t "
+					+ "WHERE t.id = m.id_ticket "
+					+ "AND m.id_usuari = u.id "
+					+ "AND t.id = ? "
+					+ "AND admin = 0;";
 			
 			preparedStatament = conexion.prepareStatement(sql);
 		
@@ -71,14 +76,14 @@ public class UsuarioUtil {
 			
 			while(rs.next()){
 				
-			int id= rs.getInt("id");
-			String nombre = rs.getString("nom");
-			String mail = rs.getString("mail");
-			String pass = rs.getString("pass");
-			String departament = rs.getString("departament");
-			Boolean admin =	rs.getBoolean("admin");
-				
-			u = new Usuario(id,nombre,mail,pass,departament,admin);
+				int id= rs.getInt("id");
+				String nombre = rs.getString("nom");
+				String mail = rs.getString("mail");
+				String pass = rs.getString("pass");
+				String departament = rs.getString("departament");
+				Boolean admin =	rs.getBoolean("admin");
+					
+				u = new Usuario(id,nombre,mail,pass,departament,admin);
 		
 			}
 			

@@ -22,7 +22,6 @@ import java.awt.FlowLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -34,13 +33,10 @@ import java.awt.Insets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-
-import sun.text.normalizer.UBiDiProps;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class UIGTicket extends JPanel {
 	
@@ -57,6 +53,7 @@ public class UIGTicket extends JPanel {
 	private JRadioButton rdbtn_activas;
 	private JRadioButton rdbtn_cerradas;
 	private JRadioButton rdbtn_todas;
+	private JPanel panel_central;
 	
 	
 	
@@ -75,14 +72,20 @@ public class UIGTicket extends JPanel {
 		JButton btnNewButton = new JButton("New button");
 		panel.add(btnNewButton);
 		
+		JButton btnNewButton_1 = new JButton("New button");
+		panel.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("New button");
+		panel.add(btnNewButton_2);
+		
 		JPanel panel_filtro = new JPanel();
 		panel_filtro.setBackground(Color.WHITE);
 		panel_filtro.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Filtro", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		add(panel_filtro, BorderLayout.NORTH);
 		GridBagLayout gbl_panel_filtro = new GridBagLayout();
-		gbl_panel_filtro.columnWidths = new int[] {90, 258, 157, 0, 0};
+		gbl_panel_filtro.columnWidths = new int[] {90, 258, 160, 0, 0, 0};
 		gbl_panel_filtro.rowHeights = new int[] {50};
-		gbl_panel_filtro.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_filtro.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_filtro.rowWeights = new double[]{0.0};
 		panel_filtro.setLayout(gbl_panel_filtro);
 		
@@ -116,20 +119,20 @@ public class UIGTicket extends JPanel {
 		gbc_panel_estado.gridy = 0;
 		panel_filtro.add(panel_estado, gbc_panel_estado);
 		
-		rdbtn_todas = new JRadioButton("Todas");
+		rdbtn_todas = new JRadioButton("Totes");
 		rdbtn_todas.setBackground(Color.WHITE);
 		rdbtn_todas.setSelected(true);
 		rdbtn_todas.setActionCommand("%");
 		panel_estado.add(rdbtn_todas);
 		group.add(rdbtn_todas);
 		
-		rdbtn_activas = new JRadioButton("Activas");
+		rdbtn_activas = new JRadioButton("Obert");
 		rdbtn_activas.setBackground(Color.WHITE);
 		rdbtn_activas.setSelected(false);
 		rdbtn_activas.setActionCommand("Obert");
 		panel_estado.add(rdbtn_activas);
 		
-		rdbtn_cerradas = new JRadioButton("Cerradas");
+		rdbtn_cerradas = new JRadioButton("Tancat");
 		rdbtn_cerradas.setBackground(Color.WHITE);
 		rdbtn_cerradas.setSelected(false);
 		rdbtn_cerradas.setActionCommand("Tancat");
@@ -142,6 +145,7 @@ public class UIGTicket extends JPanel {
 		panel_departa.setBackground(Color.WHITE);
 		panel_departa.setBorder(new TitledBorder(null, "Departamento", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_departa = new GridBagConstraints();
+		gbc_panel_departa.insets = new Insets(0, 0, 0, 5);
 		gbc_panel_departa.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel_departa.gridx = 3;
 		gbc_panel_departa.gridy = 0;
@@ -149,18 +153,39 @@ public class UIGTicket extends JPanel {
 		comb_depart = new JComboBox(depart);
 		panel_departa.add(comb_depart);
 		
+		JButton btn_refrescar = new JButton(new ImageIcon("refresco.icon"));
+		btn_refrescar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					mostrarTabla(conexion);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		GridBagConstraints gbc_btn_refrescar = new GridBagConstraints();
+		gbc_btn_refrescar.gridx = 4;
+		gbc_btn_refrescar.gridy = 0;
+		panel_filtro.add(btn_refrescar, gbc_btn_refrescar);
+		panel_central = new JPanel(new GridLayout());
+		add(panel_central, BorderLayout.CENTER);
+		
 		mostrarTabla(conexion);
 		
 	}
 	
 	public void mostrarTabla(Connection conexion) throws SQLException{
+		boolean todo_bien = true;
 		
-		modelo = new DefaultTableModel();
-		table = new JTable();
+		modelo = new DefaultTableModel();	
+		table = new JTable();		
+		
 		table.setEnabled(false);
 		table.setBorder(null);
 		table.setModel(modelo);
-		
+		modelo.fireTableDataChanged();
 		
 		modelo.addColumn("ID");
 		modelo.addColumn("Estado");
@@ -170,41 +195,50 @@ public class UIGTicket extends JPanel {
 		modelo.addColumn("Departamento");
 				
 		TicketUtil tickets_bus = new TicketUtil();
+		ArrayList<Ticket> tickets = null;
 		
 		if(text_buscar.getText().equals("")){
-			ArrayList<Ticket> tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento());
+			tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento());
 		}else{
 			try{
-				ArrayList<Ticket> tickets = tickets_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento());
+				tickets = tickets_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento());
 			}catch(NumberFormatException e){
+				text_buscar.setText("");
 				JOptionPane.showMessageDialog(null, "Debes introducir números");
+				todo_bien = false;
 			}
 		}
 		
-		
-		Ticket ticket;
-		
-		for(int i=0; i<tickets.size(); i++){
+		if(todo_bien){
+			Ticket ticket = null;
 			
-			Object[] fila = new Object[6];
-			ticket = tickets.get(i);
-			fila[0] = ticket.getId();
-			fila[1] = ticket.getEstado();
-			fila[2] = ticket.getFecha_apert();
-			fila[3] = ticket.getFecha_cerr();
+			for(int i=0; i<tickets.size(); i++){
+				
+				Object[] fila = new Object[6];
+				ticket = tickets.get(i);
+				fila[0] = ticket.getId();
+				fila[1] = ticket.getEstado();
+				fila[2] = ticket.getFecha_apert();
+				fila[3] = ticket.getFecha_cerr();
+				
+				Usuario usuario = new Usuario();
+				UsuarioUtil usuutil = new UsuarioUtil();
+				usuario = usuutil.getUsuarioTicket(conexion, ticket.getId());
+				
+				fila[4] = usuario.getNombre();
+				fila[5] = usuario.getDepartament();
+						
+				modelo.addRow(fila);
+			}
 			
-			Usuario usuario = new Usuario();
-			UsuarioUtil usuutil = new UsuarioUtil();
-			usuario = usuutil.getUsuarioTicket(conexion, ticket.getId());
 			
-			fila[4] = usuario.getNombre();
-			fila[5] = usuario.getDepartament();
-					
-			modelo.addRow(fila);
+			panel_central.removeAll();
+			
+			panel_central.add(new JScrollPane(table), BorderLayout.CENTER);
+			
+			SwingUtilities.updateComponentTreeUI(panel_central);
 		}
-
-		add(new JScrollPane(table), BorderLayout.CENTER);
-		
+	
 	}
 	
 	public String devolverDepartamento(){
