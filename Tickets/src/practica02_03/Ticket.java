@@ -15,6 +15,16 @@ public class Ticket {
 	private PreparedStatement preparedStatament = null;
 	
 	
+	public Ticket(int id,String estado,String fecha_apert,String fecha_cerr){
+		
+		this.id=id;
+		this.estado=estado;
+		this.fecha_apert=fecha_apert;
+		this.fecha_cerr=fecha_cerr;
+		
+	}
+	
+	
 	public int insertar(Connection conexion){
 		
 		int id_ticket = 0;
