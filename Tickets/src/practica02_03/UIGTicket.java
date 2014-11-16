@@ -20,7 +20,11 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.JComboBox;
 
@@ -30,6 +34,13 @@ import java.awt.Insets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+
+import sun.text.normalizer.UBiDiProps;
 
 public class UIGTicket extends JPanel {
 	
@@ -39,10 +50,13 @@ public class UIGTicket extends JPanel {
 	private static final long serialVersionUID = -7508988054079361673L;
 	private JTable table;
 	private JTextField text_buscar;
-	private String[] depart;
+	private String[] depart = {"Todas", "Administració", "Informàtica", "Diseny", "Màrketing"};
 	private ButtonGroup group = new ButtonGroup();
 	private DefaultTableModel modelo;
 	private JComboBox<String> comb_depart;
+	private JRadioButton rdbtn_activas;
+	private JRadioButton rdbtn_cerradas;
+	private JRadioButton rdbtn_todas;
 	
 	
 	
@@ -50,10 +64,8 @@ public class UIGTicket extends JPanel {
 	 * Create the panel.
 	 * @throws SQLException 
 	 */
-	public UIGTicket(Connection conexion) throws SQLException {
+	public UIGTicket(final Connection conexion) throws SQLException {
 		setLayout(new BorderLayout(0, 0));
-		
-		mostrarTabla(conexion);
 		
 		Panel panel = new Panel();
 		panel.setBackground(Color.WHITE);
@@ -104,28 +116,27 @@ public class UIGTicket extends JPanel {
 		gbc_panel_estado.gridy = 0;
 		panel_filtro.add(panel_estado, gbc_panel_estado);
 		
+		rdbtn_todas = new JRadioButton("Todas");
+		rdbtn_todas.setBackground(Color.WHITE);
+		rdbtn_todas.setSelected(true);
+		rdbtn_todas.setActionCommand("%");
+		panel_estado.add(rdbtn_todas);
+		group.add(rdbtn_todas);
 		
-		JRadioButton rdbtn_activas = new JRadioButton("Activas");
+		rdbtn_activas = new JRadioButton("Activas");
 		rdbtn_activas.setBackground(Color.WHITE);
-		rdbtn_activas.setSelected(true);
+		rdbtn_activas.setSelected(false);
 		rdbtn_activas.setActionCommand("Obert");
 		panel_estado.add(rdbtn_activas);
 		
-		JRadioButton rdbtn_cerradas = new JRadioButton("Cerradas");
+		rdbtn_cerradas = new JRadioButton("Cerradas");
 		rdbtn_cerradas.setBackground(Color.WHITE);
 		rdbtn_cerradas.setSelected(false);
 		rdbtn_cerradas.setActionCommand("Tancat");
 		panel_estado.add(rdbtn_cerradas);
 		
-		JRadioButton rdbtn_todas = new JRadioButton("Todas");
-		rdbtn_todas.setBackground(Color.WHITE);
-		rdbtn_todas.setSelected(false);
-		rdbtn_todas.setActionCommand("*");
-		panel_estado.add(rdbtn_todas);
-		
 		group.add(rdbtn_activas);
 		group.add(rdbtn_cerradas);
-		group.add(rdbtn_todas);
 		
 		JPanel panel_departa = new JPanel();
 		panel_departa.setBackground(Color.WHITE);
@@ -135,19 +146,21 @@ public class UIGTicket extends JPanel {
 		gbc_panel_departa.gridx = 3;
 		gbc_panel_departa.gridy = 0;
 		panel_filtro.add(panel_departa, gbc_panel_departa);
-		UsuarioUtil depart_busq = new UsuarioUtil();
-		depart = cargarDepartamentos(depart_busq.extraerDepartamentos);
 		comb_depart = new JComboBox(depart);
 		panel_departa.add(comb_depart);
 		
-
+		mostrarTabla(conexion);
+		
 	}
 	
 	public void mostrarTabla(Connection conexion) throws SQLException{
 		
 		modelo = new DefaultTableModel();
 		table = new JTable();
+		table.setEnabled(false);
+		table.setBorder(null);
 		table.setModel(modelo);
+		
 		
 		modelo.addColumn("ID");
 		modelo.addColumn("Estado");
@@ -155,15 +168,20 @@ public class UIGTicket extends JPanel {
 		modelo.addColumn("Fecha Cerrada");
 		modelo.addColumn("Usuario");
 		modelo.addColumn("Departamento");
-		
-		
+				
 		TicketUtil tickets_bus = new TicketUtil();
+		
 		if(text_buscar.getText().equals("")){
-			i
-			
+			ArrayList<Ticket> tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento());
 		}else{
-			ArrayList<Ticket> tickets = tickets_bus.buscar(Integer.parseInt(text_buscar.getText()),group.getSelection().getActionCommand(), devolverDepartamento());
+			try{
+				ArrayList<Ticket> tickets = tickets_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento());
+			}catch(NumberFormatException e){
+				JOptionPane.showMessageDialog(null, "Debes introducir números");
+			}
 		}
+		
+		
 		Ticket ticket;
 		
 		for(int i=0; i<tickets.size(); i++){
@@ -185,24 +203,7 @@ public class UIGTicket extends JPanel {
 			modelo.addRow(fila);
 		}
 
-		add(table, BorderLayout.CENTER);
-		
-	}
-	
-	public String[] cargarDepartamentos(ArrayList<String> departamentos){
-		
-		String[] depart = new String[departamentos.size()+1];
-		
-		depart[0] = "Todos";
-		
-		for(int i=0; i<depart.length; i++){
-			
-			depart[i+1] = departamentos.get(i);
-			
-		}
-		
-		return depart;
-			
+		add(new JScrollPane(table), BorderLayout.CENTER);
 		
 	}
 	
@@ -210,11 +211,11 @@ public class UIGTicket extends JPanel {
 		
 		if(comb_depart.getSelectedIndex() == 0){
 			
-			return "*";
+			return "%";
 			
 		}else{
 			
-			return depart[comb_depart.getSelectedIndex()+1];
+			return depart[comb_depart.getSelectedIndex()];
 		}
 		
 	}

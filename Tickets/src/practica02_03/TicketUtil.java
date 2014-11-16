@@ -108,7 +108,6 @@ public ArrayList<Ticket> buscar(Connection conexion,String activa, String depart
 			Ticket t = new Ticket(id,estado,fecha_abri,fecha_cerr);
 		
 			tickets.add(t);
-			System.out.println("h");
 		
 			}
 	

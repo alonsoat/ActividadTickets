@@ -47,7 +47,7 @@ public class SistemaTickets extends JFrame {
 		setResizable(false);
 		setTitle("Gestor de Tickets");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 500);
+		setBounds(100, 100, 740, 500);
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
@@ -55,8 +55,7 @@ public class SistemaTickets extends JFrame {
 		btnTicket.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					UIGTicket uigt;
-					uigt = new UIGTicket(conexion);
+					UIGTicket uigt = new UIGTicket(conexion);
 
 					uigt.setVisible(true);
 					contentPane.add(uigt);

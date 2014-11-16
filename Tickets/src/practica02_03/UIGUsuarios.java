@@ -33,13 +33,9 @@ import java.util.ArrayList;
 
 public class UIGUsuarios extends JPanel {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7508988054079361673L;
 	private JTable table;
 	private JTextField text_buscar;
-	private String[] depart;
+	private String[] depart = {"Todas", "Administració", "Informàtica", "Diseny", "Màrketing"};
 	private ButtonGroup group = new ButtonGroup();
 	private DefaultTableModel modelo;
 	private JComboBox<String> comb_depart;
@@ -136,7 +132,6 @@ public class UIGUsuarios extends JPanel {
 		gbc_panel_departa.gridy = 0;
 		panel_filtro.add(panel_departa, gbc_panel_departa);
 		UsuarioUtil depart_busq = new UsuarioUtil();
-		depart = cargarDepartamentos(depart_busq.extraerDepartamentos);
 		comb_depart = new JComboBox(depart);
 		panel_departa.add(comb_depart);
 		
@@ -158,7 +153,7 @@ public class UIGUsuarios extends JPanel {
 		
 		UsuarioUtil usuarios_bus = new UsuarioUtil();
 		
-		ArrayList<Usuario> usuarios = usuarios_bus.buscar(text_buscar.getText(),group.getSelection().getActionCommand(), devolverDepartamento());
+		ArrayList<Usuario> usuarios = usuarios_bus.buscar(conexion, text_buscar.getText(),group.getSelection().getActionCommand(), devolverDepartamento());
 		
 		Usuario usuario;
 		
@@ -179,22 +174,6 @@ public class UIGUsuarios extends JPanel {
 		
 	}
 	
-	public String[] cargarDepartamentos(ArrayList<String> departamentos){
-		
-		String[] depart = new String[departamentos.size()+1];
-		
-		depart[0] = "Todos";
-		
-		for(int i=0; i<depart.length; i++){
-			
-			depart[i+1] = departamentos.get(i);
-			
-		}
-		
-		return depart;
-			
-		
-	}
 	
 	public String devolverDepartamento(){
 		
