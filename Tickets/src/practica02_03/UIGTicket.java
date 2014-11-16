@@ -39,10 +39,10 @@ public class UIGTicket extends JPanel {
 	private static final long serialVersionUID = -7508988054079361673L;
 	private JTable table;
 	private JTextField text_buscar;
-	private String[] depart = {"Todas", "Administració", "Informàtica", "Diseny", "Màrketing"};
+	private String[] depart;
 	private ButtonGroup group = new ButtonGroup();
 	private DefaultTableModel modelo;
-	private JComboBox<String> combo_activas;
+	private JComboBox<String> comb_depart;
 	
 	
 	
@@ -108,16 +108,19 @@ public class UIGTicket extends JPanel {
 		JRadioButton rdbtn_activas = new JRadioButton("Activas");
 		rdbtn_activas.setBackground(Color.WHITE);
 		rdbtn_activas.setSelected(true);
+		rdbtn_activas.setActionCommand("Obert");
 		panel_estado.add(rdbtn_activas);
 		
 		JRadioButton rdbtn_cerradas = new JRadioButton("Cerradas");
 		rdbtn_cerradas.setBackground(Color.WHITE);
 		rdbtn_cerradas.setSelected(false);
+		rdbtn_cerradas.setActionCommand("Tancat");
 		panel_estado.add(rdbtn_cerradas);
 		
 		JRadioButton rdbtn_todas = new JRadioButton("Todas");
-		rdbtn_cerradas.setBackground(Color.WHITE);
-		rdbtn_cerradas.setSelected(false);
+		rdbtn_todas.setBackground(Color.WHITE);
+		rdbtn_todas.setSelected(false);
+		rdbtn_todas.setActionCommand("*");
 		panel_estado.add(rdbtn_todas);
 		
 		group.add(rdbtn_activas);
@@ -132,9 +135,10 @@ public class UIGTicket extends JPanel {
 		gbc_panel_departa.gridx = 3;
 		gbc_panel_departa.gridy = 0;
 		panel_filtro.add(panel_departa, gbc_panel_departa);
-		
-		combo_activas = new JComboBox(depart);
-		panel_departa.add(combo_activas);
+		UsuarioUtil depart_busq = new UsuarioUtil();
+		depart = cargarDepartamentos(depart_busq.extraerDepartamentos);
+		comb_depart = new JComboBox(depart);
+		panel_departa.add(comb_depart);
 		
 
 	}
@@ -155,7 +159,7 @@ public class UIGTicket extends JPanel {
 		
 		TicketUtil tickets_bus = new TicketUtil();
 		
-		ArrayList<Ticket> tickets = tickets_bus.buscar(group.g);
+		ArrayList<Ticket> tickets = tickets_bus.buscar(text_buscar.getText(),group.getSelection().getActionCommand(), devolverDepartamento());
 		
 		Ticket ticket;
 		
@@ -181,5 +185,37 @@ public class UIGTicket extends JPanel {
 		add(table, BorderLayout.CENTER);
 		
 	}
+	
+	public String[] cargarDepartamentos(ArrayList<String> departamentos){
+		
+		String[] depart = new String[departamentos.size()+1];
+		
+		depart[0] = "Todos";
+		
+		for(int i=0; i<depart.length; i++){
+			
+			depart[i+1] = departamentos.get(i);
+			
+		}
+		
+		return depart;
+			
+		
+	}
+	
+	public String devolverDepartamento(){
+		
+		if(comb_depart.getSelectedIndex() == 0){
+			
+			return "*";
+			
+		}else{
+			
+			return depart[comb_depart.getSelectedIndex()+1];
+		}
+		
+	}
+	
+	
 
 }
