@@ -58,7 +58,7 @@ public class Ticket {
 		}
 		
 		preparedStatament.close();
-		
+		System.out.println("h");
 	
 		
 		
