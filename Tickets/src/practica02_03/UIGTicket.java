@@ -292,6 +292,7 @@ public class UIGTicket extends JPanel {
 				fila[5] = usuario.getDepartament();
 				
 				modelo.addRow(fila);
+				
 			}
 			
 			//Para que no se puedan modificar los campos
@@ -307,6 +308,7 @@ public class UIGTicket extends JPanel {
 			panel_central.add(new JScrollPane(table), BorderLayout.CENTER);
 			
 			SwingUtilities.updateComponentTreeUI(panel_central);
+			
 		}
 	
 	}
