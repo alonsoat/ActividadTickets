@@ -106,14 +106,35 @@ public class Ticket {
 			
 			}
 		
-		public void actualizar(Connection conexion,int id){
+		public void actualizar(Connection conexion){
 			
 			try{
 				
 				String sql = "UPDATE tickets SET estat=?, WHERE id = ?";
 				preparedStatament = conexion.prepareStatement(sql);
 				
+			
 				preparedStatament.setString(1,this.estado);
+				if(this.estado.equals("Tancat")){
+					/*
+					 * Probar las 2 formas de cambiar la fecha. 
+					 * Desde codigo en el propio metodo, mezclando 2 conexiones.
+					 * Llamando al metodo cambiarFecha , que se le pasa una conexion.
+					 * 
+					 */
+					
+					String sqlFecha = "UPDATE tickets SET data_tanca=CURRENT_TIMESTAMP";
+					preparedStatament = conexion.prepareStatement(sqlFecha);
+					
+					
+					preparedStatament.executeUpdate();
+					preparedStatament.close();
+					
+					cambiarFecha(conexion);
+					
+					
+				}
+				
 				preparedStatament.setInt(2,this.id);
 				
 				preparedStatament.executeUpdate();
@@ -129,7 +150,7 @@ public class Ticket {
 		
 		
 		
-		public void eliminar(Connection conexion,int id){
+		public void eliminar(Connection conexion){
 			
 			try{
 				
@@ -137,7 +158,7 @@ public class Ticket {
 			
 			preparedStatament = conexion.prepareStatement(sql);
 			
-			preparedStatament.setInt(1, id);
+			preparedStatament.setInt(1, this.id);
 		
 			preparedStatament.executeUpdate();
 			
@@ -151,6 +172,27 @@ public class Ticket {
 			}
 		}
 		
+		
+		public void cambiarFecha(Connection conexion){
+			
+			try{
+			
+			String sqlFecha = "UPDATE tickets SET data_tanca=CURRENT_TIMESTAMP";
+			preparedStatament = conexion.prepareStatement(sqlFecha);
+			
+			
+			preparedStatament.executeUpdate();
+			
+			preparedStatament.close();
+			
+			}catch(SQLException ex){
+				
+				System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError cambiando la fecha");
+				
+				
+			}
+			
+		}
 		
 		public String getFecha_apert() {
 			return fecha_apert;
