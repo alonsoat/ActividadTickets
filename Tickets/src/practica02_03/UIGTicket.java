@@ -302,8 +302,6 @@ public class UIGTicket extends JPanel {
 			    
 			}
 			
-
-			
 			panel_central.removeAll();
 			
 			panel_central.add(new JScrollPane(table), BorderLayout.CENTER);
