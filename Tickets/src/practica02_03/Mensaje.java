@@ -10,11 +10,21 @@ import java.util.GregorianCalendar;
 
 public class Mensaje {
 	
-
-	private String titol,text,imatge,fecha_crea;
+	private int id;
+	private String titol,text,imatge,fechaCrea;
 	private PreparedStatement preparedStatament = null;
 	private int id_usuario,id_ticket;
 	
+	
+	public Mensaje(int id,String titol,String text,String imatge,String fechaCrea){
+		
+		this.id=id;
+		this.titol = titol;
+		this.text = text;
+		this.imatge = imatge;
+		this.fechaCrea = fechaCrea;
+		
+	}
 	
 	public void insertar(Connection conexion){
 		
@@ -69,7 +79,7 @@ public class Mensaje {
 			this.titol = rs.getString("nom");
 			this.text = rs.getString("text");
 			this.imatge = rs.getString("imatge");
-			this.fecha_crea = rs.getString("data_crea");
+			this.fechaCrea = rs.getString("data_crea");
 			this.id_usuario =	rs.getInt("id_usuari");
 			this.id_ticket = rs.getInt("id_ticket");
 				
