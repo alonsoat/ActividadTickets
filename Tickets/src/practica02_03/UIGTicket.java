@@ -39,8 +39,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
 
-import com.sun.org.apache.xml.internal.security.encryption.AgreementMethod;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -48,7 +46,10 @@ public class UIGTicket extends JPanel {
 	
 	/**
 	 * 
+	 * 
+	 * 
 	 */
+	
 	private static final long serialVersionUID = -7508988054079361673L;
 	private JTable table;
 	private JTextField text_buscar;
@@ -70,6 +71,7 @@ public class UIGTicket extends JPanel {
 	/**
 	 * Create the panel.
 	 * @throws SQLException 
+	 * 
 	 */
 	public UIGTicket(final Connection conexion, final int id) throws SQLException {
 		setLayout(new BorderLayout(0, 0));

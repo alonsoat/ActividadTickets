@@ -127,19 +127,19 @@ public class Usuario {
 	
 	
 	
-	public void actualizar(Connection conexion,int id){
+	public void actualizar(Connection conexion){
 		
 		try{
 			
 			String sql = "UPDATE usuaris SET nom=?,mail=?,pass=SHA1(?),departament=?,admin=? WHERE id = ?";
 			preparedStatament = conexion.prepareStatement(sql);
 			
-			preparedStatament.setString(1,"Pepe");
-			preparedStatament.setString(2,"alberto_a@hotmail.es");
-			preparedStatament.setString(3,"125800");
-			preparedStatament.setString(4,"Disseny");
-			preparedStatament.setBoolean(5, true);
-			preparedStatament.setInt(6, id);
+			preparedStatament.setString(1,this.nombre);
+			preparedStatament.setString(2,this.mail);
+			preparedStatament.setString(3,this.pass);
+			preparedStatament.setString(4,this.departament);
+			preparedStatament.setBoolean(5,  this.admin);
+			preparedStatament.setInt(6, this.id);
 			
 			
 			preparedStatament.executeUpdate();
@@ -198,6 +198,7 @@ public class Usuario {
 			
 			while(rs.next()){
 				
+				this.id=rs.getInt("id");
 				this.nombre=rs.getString("nom");
 				this.pass=rs.getString("pass");
 				this.mail=rs.getString("mail");
@@ -208,6 +209,7 @@ public class Usuario {
 					
 			}
 			
+				
 			
 		}catch(SQLException ex){
 			
@@ -220,52 +222,113 @@ public class Usuario {
 		
 	}
 	
+	
+	/*public int retornarId(Connection conexion){
+		
+		int id=0;
+		
+		
+		try{
+			
+			String sql = "SELECT * FROM usuaris WHERE nom LIKE ? AND pass LIKE SHA1(?);";
+			
+			preparedStatament = conexion.prepareStatement(sql);
+			
+			
+			preparedStatament.setString(1, this.nombre);
+			preparedStatament.setString(2, this.pass);
+			
+			ResultSet rs = preparedStatament.executeQuery();
+			
+			
+			while(rs.next()){
+				
+				id=rs.getInt("id");
+					
+			}
+			
+			
+		}catch(SQLException ex){
+			
+			System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError validando el usuario");
+			
+		}
+		
+		return id;
+		
+		
+	}*/
+	
 	public String getNombre() {
+		
 		return nombre;
+		
 	}
 
 	public void setNombre(String nombre) {
+		
 		this.nombre = nombre;
+		
 	}
 
 	public String getMail() {
+		
 		return mail;
+		
 	}
 
 	public void setMail(String mail) {
+		
 		this.mail = mail;
+		
 	}
 
 	public String getPass() {
+		
 		return pass;
+		
 	}
 
 	public void setPass(String pass) {
+		
 		this.pass = pass;
+		
 	}
 
 	public String getDepartament() {
+		
 		return departament;
+		
 	}
 
 	public void setDepartament(String departament) {
+		
 		this.departament = departament;
+		
 	}
 
 	public int getId() {
+		
 		return id;
+		
 	}
 
 	public void setId(int id) {
+		
 		this.id = id;
+		
 	}
 
 	public boolean isAdmin() {
+		
 		return admin;
+		
 	}
 
 	public void setAdmin(boolean admin) {
+		
 		this.admin = admin;
+		
 	}
 
 	@Override
