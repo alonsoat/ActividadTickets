@@ -37,6 +37,9 @@ import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class UIGTicket extends JPanel {
 	
@@ -55,6 +58,10 @@ public class UIGTicket extends JPanel {
 	private JRadioButton rdbtn_todas;
 	private JPanel panel_central;
 	
+	private JButton btn_MostrarMensajes;
+	private JButton btn_eliminar;
+	private JButton btn_modificar;
+	private JButton btn_agregar;
 	
 	
 	/**
@@ -64,19 +71,55 @@ public class UIGTicket extends JPanel {
 	public UIGTicket(final Connection conexion) throws SQLException {
 		setLayout(new BorderLayout(0, 0));
 		
-		Panel panel = new Panel();
-		panel.setBackground(Color.WHITE);
-		add(panel, BorderLayout.EAST);
-		panel.setLayout(new GridLayout(5, 1, 0, 0));
+		JPanel panel_botones = new JPanel();
+		panel_botones.setBorder(new EmptyBorder(20, 10, 20, 10));
+		panel_botones.setBackground(Color.WHITE);
+		add(panel_botones, BorderLayout.EAST);
+		panel_botones.setLayout(new GridLayout(6, 1, 0, 30));
 		
-		JButton btnNewButton = new JButton("New button");
-		panel.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		panel.add(btnNewButton_1);
+		btn_agregar = new JButton("Agregar");
+		btn_agregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//Codigo de agregar ticket
+				
+			}
+		});
+		panel_botones.add(btn_agregar);
 		
-		JButton btnNewButton_2 = new JButton("New button");
-		panel.add(btnNewButton_2);
+		btn_modificar = new JButton("Modificar");
+		btn_modificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//Codigo de modificar ticket
+				
+			}
+		});
+		btn_modificar.setEnabled(false);
+		panel_botones.add(btn_modificar);
+		
+		btn_eliminar = new JButton("Eliminar");
+		btn_eliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//Codigo de elminar ticket
+				
+			}
+		});
+		btn_eliminar.setEnabled(false);
+		panel_botones.add(btn_eliminar);
+		
+		btn_MostrarMensajes = new JButton("Mensajes");
+		btn_MostrarMensajes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//Codigo de mostrar mensajes
+				
+			}
+		});
+		btn_MostrarMensajes.setEnabled(false);
+		panel_botones.add(btn_MostrarMensajes);
 		
 		JPanel panel_filtro = new JPanel();
 		panel_filtro.setBackground(Color.WHITE);
@@ -119,20 +162,20 @@ public class UIGTicket extends JPanel {
 		gbc_panel_estado.gridy = 0;
 		panel_filtro.add(panel_estado, gbc_panel_estado);
 		
-		rdbtn_todas = new JRadioButton("Totes");
+		rdbtn_todas = new JRadioButton("Todas");
 		rdbtn_todas.setBackground(Color.WHITE);
 		rdbtn_todas.setSelected(true);
 		rdbtn_todas.setActionCommand("%");
 		panel_estado.add(rdbtn_todas);
 		group.add(rdbtn_todas);
 		
-		rdbtn_activas = new JRadioButton("Obert");
+		rdbtn_activas = new JRadioButton("Abiertas");
 		rdbtn_activas.setBackground(Color.WHITE);
 		rdbtn_activas.setSelected(false);
 		rdbtn_activas.setActionCommand("Obert");
 		panel_estado.add(rdbtn_activas);
 		
-		rdbtn_cerradas = new JRadioButton("Tancat");
+		rdbtn_cerradas = new JRadioButton("Cerradas");
 		rdbtn_cerradas.setBackground(Color.WHITE);
 		rdbtn_cerradas.setSelected(false);
 		rdbtn_cerradas.setActionCommand("Tancat");
@@ -174,6 +217,25 @@ public class UIGTicket extends JPanel {
 		
 		mostrarTabla(conexion);
 		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+								
+				if(table.getSelectedRow() != -1){
+					
+					btn_modificar.setEnabled(true);
+					btn_eliminar.setEnabled(true);
+					btn_MostrarMensajes.setEnabled(true);
+					
+				} else {
+					
+					btn_modificar.setEnabled(false);
+					btn_eliminar.setEnabled(false);
+					btn_MostrarMensajes.setEnabled(false);
+					
+				}
+			}
+		});
 	}
 	
 	public void mostrarTabla(Connection conexion) throws SQLException{
@@ -182,10 +244,11 @@ public class UIGTicket extends JPanel {
 		modelo = new DefaultTableModel();	
 		table = new JTable();		
 		
-		table.setEnabled(false);
+		table.setEnabled(true);
 		table.setBorder(null);
 		table.setModel(modelo);
 		modelo.fireTableDataChanged();
+		
 		
 		modelo.addColumn("ID");
 		modelo.addColumn("Estado");
@@ -227,10 +290,19 @@ public class UIGTicket extends JPanel {
 				
 				fila[4] = usuario.getNombre();
 				fila[5] = usuario.getDepartament();
-						
+				
 				modelo.addRow(fila);
 			}
 			
+			//Para que no se puedan modificar los campos
+			for (int j = 0; j < table.getColumnCount(); j++){
+				
+			    Class<?> col_class = table.getColumnClass(j);
+			    table.setDefaultEditor(col_class, null);        // remove editor
+			    
+			}
+			
+
 			
 			panel_central.removeAll();
 			
