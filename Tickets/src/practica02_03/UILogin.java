@@ -12,8 +12,6 @@ import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
-import com.sun.jmx.snmp.daemon.CommunicationException;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
