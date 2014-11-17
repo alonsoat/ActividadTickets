@@ -48,7 +48,7 @@ public class Mensaje {
 		try{
 			
 			
-		String sql = "INSERT INTO mensaje (titol,text,imatge,id_usuari,id_ticket) VALUES (?,?,?,?);";
+		String sql = "INSERT INTO mensaje (titol,text,imatge,id_usuari,id_ticket) VALUES (?,?,?,?,?);";
 		
 	
 		preparedStatament = conexion.prepareStatement(sql);
