@@ -108,7 +108,7 @@ public class Ticket {
 			
 			try{
 				
-				String sql = "UPDATE tickets SET estat=?, WHERE id = ?";
+				String sql = "UPDATE tickets SET estat=? WHERE id = ?";
 				preparedStatament = conexion.prepareStatement(sql);
 				
 			
