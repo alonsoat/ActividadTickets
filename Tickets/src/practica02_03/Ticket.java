@@ -28,7 +28,7 @@ public class Ticket {
 	}
 	
 	
-	public void insertar(Connection conexion){
+	public int insertar(Connection conexion){
 	
 		int id_ticket = 0;
 		
@@ -44,7 +44,7 @@ public class Ticket {
 	
 		preparedStatament.executeUpdate();
 		
-		/*try (ResultSet cogerId = preparedStatament.getGeneratedKeys()) {
+		try (ResultSet cogerId = preparedStatament.getGeneratedKeys()) {
 
 			if (cogerId.next()) {
 
@@ -56,7 +56,7 @@ public class Ticket {
 
 			}
 
-		}*/
+		}
 		
 		preparedStatament.close();
 	
@@ -69,11 +69,7 @@ public class Ticket {
 			
 		}
 		
-		//return id_ticket;
-	
-		
-		
-		
+		return id_ticket;	
 		
 	}
 	

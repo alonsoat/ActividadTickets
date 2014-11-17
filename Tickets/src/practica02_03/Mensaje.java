@@ -26,6 +26,17 @@ public class Mensaje {
 		
 	}
 	
+	public Mensaje(int id,String titol,String text,String imatge){
+		
+		this.id=id;
+		this.titol = titol;
+		this.text = text;
+		this.imatge = imatge;
+		this.fechaCrea = fechaCrea;
+		
+	}
+	
+	
 	public void insertar(Connection conexion){
 		
 		try{

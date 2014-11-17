@@ -104,6 +104,11 @@ public class TicketUtil {
 	}
 	
 
+	/*public void crearMensaje(String mensaje,int id_usuario){
+		
+		
+		
+	}*/
 	
 
 }
