@@ -28,9 +28,7 @@ public class Ticket {
 	}
 	
 	
-	public int insertar(Connection conexion){
-	
-		int id_ticket = 0;
+	public void insertar(Connection conexion){
 		
 		try{
 			
@@ -48,7 +46,8 @@ public class Ticket {
 
 			if (cogerId.next()) {
 
-				id_ticket = cogerId.getInt(1);
+				
+				this.id=cogerId.getInt(1);
 
 			} else {
 
@@ -69,7 +68,7 @@ public class Ticket {
 			
 		}
 		
-		return id_ticket;	
+		
 		
 	}
 	
@@ -114,6 +113,7 @@ public class Ticket {
 				
 			
 				preparedStatament.setString(1,this.estado);
+				
 				if(this.estado.equals("Tancat")){
 					/*
 					 * Probar las 2 formas de cambiar la fecha. 
@@ -123,13 +123,14 @@ public class Ticket {
 					 */
 					
 					String sqlFecha = "UPDATE tickets SET data_tanca=CURRENT_TIMESTAMP";
-					preparedStatament = conexion.prepareStatement(sqlFecha);
+					
+					PreparedStatement preparedStatament2 = conexion.prepareStatement(sqlFecha);
 					
 					
-					preparedStatament.executeUpdate();
-					preparedStatament.close();
+					preparedStatament2.executeUpdate();
+					preparedStatament2.close();
 					
-					cambiarFecha(conexion);
+					//cambiarFecha(conexion);
 					
 					
 				}

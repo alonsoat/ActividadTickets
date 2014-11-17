@@ -102,13 +102,7 @@ public class TicketUtil {
 		return tickets;
 				
 	}
-	
 
-	/*public void crearMensaje(String mensaje,int id_usuario){
-		
-		
-		
-	}*/
 	
 
 }
