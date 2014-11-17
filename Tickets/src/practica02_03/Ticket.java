@@ -113,8 +113,10 @@ public class Ticket {
 				
 			
 				preparedStatament.setString(1,this.estado);
+				preparedStatament.setInt(2,this.id);
 				
 				if(this.estado.equals("Tancat")){
+					
 					/*
 					 * Probar las 2 formas de cambiar la fecha. 
 					 * Desde codigo en el propio metodo, mezclando 2 conexiones.
@@ -128,14 +130,13 @@ public class Ticket {
 					
 					
 					preparedStatament2.executeUpdate();
+					
 					preparedStatament2.close();
 					
 					//cambiarFecha(conexion);
 					
 					
 				}
-				
-				preparedStatament.setInt(2,this.id);
 				
 				preparedStatament.executeUpdate();
 				
