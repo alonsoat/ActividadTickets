@@ -127,19 +127,19 @@ public class Usuario {
 	
 	
 	
-	public void actualizar(Connection conexion,int id){
+	public void actualizar(Connection conexion){
 		
 		try{
 			
 			String sql = "UPDATE usuaris SET nom=?,mail=?,pass=SHA1(?),departament=?,admin=? WHERE id = ?";
 			preparedStatament = conexion.prepareStatement(sql);
 			
-			preparedStatament.setString(1,"Pepe");
-			preparedStatament.setString(2,"alberto_a@hotmail.es");
-			preparedStatament.setString(3,"125800");
-			preparedStatament.setString(4,"Disseny");
-			preparedStatament.setBoolean(5, true);
-			preparedStatament.setInt(6, id);
+			preparedStatament.setString(1,this.nombre);
+			preparedStatament.setString(2,this.mail);
+			preparedStatament.setString(3,this.pass);
+			preparedStatament.setString(4,this.departament);
+			preparedStatament.setBoolean(5,  this.admin);
+			preparedStatament.setInt(6, this.id);
 			
 			
 			preparedStatament.executeUpdate();
