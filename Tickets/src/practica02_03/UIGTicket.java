@@ -73,7 +73,8 @@ public class UIGTicket extends JPanel {
 	 * @throws SQLException 
 	 * 
 	 */
-	public UIGTicket(final Connection conexion, final int id) throws SQLException {
+	public UIGTicket(final Connection conexion, final Usuario login
+			) throws SQLException {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_botones = new JPanel();
@@ -87,7 +88,7 @@ public class UIGTicket extends JPanel {
 		btn_agregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					
-				llamarAgregarTicket(conexion, id);
+				llamarAgregarTicket(conexion, login);
 				
 			}
 		});
@@ -97,7 +98,7 @@ public class UIGTicket extends JPanel {
 		btn_modificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				llamarModificarTicket(conexion);
+				llamarModificarTicket(conexion, login);
 				
 			}
 		});
@@ -325,14 +326,14 @@ public class UIGTicket extends JPanel {
 		
 	}
 	
-	public void llamarAgregarTicket(Connection conexion, int id){
+	public void llamarAgregarTicket(Connection conexion, Usuario login){
 		
-		UIAgregarUsuario agregar_t = new UIAgregarUsuario(conexion, this, id);
+		UIAgregarUsuario agregar_t = new UIAgregarUsuario(conexion, this, login.getId());
 		agregar_t.setVisible(true);
 		
 	}
 	
-	public void llamarModificarTicket(Connection conexion){
+	public void llamarModificarTicket(Connection conexion, Usuario login){
 		
 		
 		int id=(int) table.getValueAt(table.getSelectedRow(), 0);
@@ -343,7 +344,7 @@ public class UIGTicket extends JPanel {
 		if(!estado.equals("Tancat")){
 			Ticket ticket = new Ticket(id, estado, fecha_apert, fecha_cerr);
 			
-			UIModificarTicket modificar_t = new UIModificarTicket(conexion, this, ticket, id);
+			UIModificarTicket modificar_t = new UIModificarTicket(conexion, this, ticket, login);
 			modificar_t.setVisible(true);
 			
 		}else{

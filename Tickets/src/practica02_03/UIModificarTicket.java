@@ -26,7 +26,7 @@ public class UIModificarTicket extends JDialog {
 	/**
 	 * Create the frame.
 	 */
-	public UIModificarTicket(final Connection conexion, final UIGTicket uigTicket, final Ticket ticket, int id) {
+	public UIModificarTicket(final Connection conexion, final UIGTicket uigTicket, final Ticket ticket, final Usuario login) {
 		setLocationRelativeTo(uigTicket);
 		setModal(true);
 		setResizable(false);
@@ -58,7 +58,7 @@ public class UIModificarTicket extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				ticket.setEstado(estados[comboBox.getSelectedIndex()]);
-				ticket.actualizar(conexion, id);
+				ticket.actualizar(conexion, login.isAdmin());
 				
 				try {
 					uigTicket.mostrarTabla(conexion);
@@ -87,5 +87,10 @@ public class UIModificarTicket extends JDialog {
 			}
 		});
 		panel_1.add(btn_cancelar);
+	}
+	
+	public void actualizarEstado(){
+		
+		
 	}
 }
