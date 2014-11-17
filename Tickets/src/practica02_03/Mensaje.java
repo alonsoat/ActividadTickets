@@ -16,6 +16,11 @@ public class Mensaje {
 	private int id_usuario,id_ticket;
 	
 	
+	public Mensaje(){
+		
+		
+	}
+	
 	public Mensaje(int id,String titol,String text,String imatge,String fechaCrea){
 		
 		this.id=id;
@@ -35,6 +40,7 @@ public class Mensaje {
 		this.fechaCrea = fechaCrea;
 		
 	}
+	
 	
 	
 	public void insertar(Connection conexion){
@@ -230,5 +236,32 @@ public void eliminar(Connection conexion){
 		
 	}
 	
+	
+	public int getId() {
+		
+		return id;
+		
+	}
+	
+
+	public void setId(int id) {
+		
+		this.id = id;
+		
+	}
+	
+
+	public String getFechaCrea() {
+		
+		return fechaCrea;
+		
+	}
+
+	public void setFechaCrea(String fechaCrea) {
+		
+		this.fechaCrea = fechaCrea;
+		
+	}
+
 
 }
