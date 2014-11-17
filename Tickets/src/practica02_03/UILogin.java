@@ -150,7 +150,8 @@ public class UILogin extends JFrame {
 					
 						if(login.validarUsuario(conexion)){
 			
-							SistemaTickets sistick = new SistemaTickets(conexion, login.isAdmin());
+							SistemaTickets sistick = new SistemaTickets(conexion, login.isAdmin(), login.getId());
+							System.out.println(login.getId());
 							sistick.setVisible(true);
 							dispose();
 							

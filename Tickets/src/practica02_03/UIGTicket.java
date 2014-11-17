@@ -71,7 +71,7 @@ public class UIGTicket extends JPanel {
 	 * Create the panel.
 	 * @throws SQLException 
 	 */
-	public UIGTicket(final Connection conexion) throws SQLException {
+	public UIGTicket(final Connection conexion, final int id) throws SQLException {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_botones = new JPanel();
@@ -85,7 +85,7 @@ public class UIGTicket extends JPanel {
 		btn_agregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 							
-				llamarAgregarTicket(conexion);
+				llamarAgregarTicket(conexion, id);
 				
 			}
 		});
@@ -333,13 +333,12 @@ public class UIGTicket extends JPanel {
 		
 	}
 	
-	public void llamarAgregarTicket(Connection conexion){
+	public void llamarAgregarTicket(Connection conexion, int id){
 		
-		UIAgregarUsuario agregar_u = new UIAgregarUsuario(conexion, this);
+		UIAgregarUsuario agregar_u = new UIAgregarUsuario(conexion, this, id);
 		agregar_u.setVisible(true);
 		
-	}
-	
+	}	
 	
 
 }

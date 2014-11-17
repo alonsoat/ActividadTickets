@@ -35,7 +35,7 @@ public class UIAgregarUsuario extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UIAgregarUsuario(final Connection conexion, final UIGTicket uigTicket) {
+	public UIAgregarUsuario(final Connection conexion, final UIGTicket uigTicket, final int id) {
 		setResizable(false);
 		setTitle("Nuevo Ticket");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -79,7 +79,7 @@ public class UIAgregarUsuario extends JFrame {
 					
 					Mensaje mensaje = new Mensaje();
 					mensaje.setId_ticket(ticket.insertar(conexion));
-					mensaje.setId_usuario(1);
+					mensaje.setId_usuario(id);
 					mensaje.setImatge("NULL");
 					mensaje.setText(texto_mensaje);
 					mensaje.setTitol(texto_titulo);

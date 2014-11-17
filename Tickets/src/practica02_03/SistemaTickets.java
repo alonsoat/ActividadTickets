@@ -28,7 +28,7 @@ public class SistemaTickets extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SistemaTickets(final Connection conexion, boolean admin) {
+	public SistemaTickets(final Connection conexion, boolean admin, final int id) {
 		setResizable(false);
 		setTitle("Gestor de Tickets");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,7 +40,7 @@ public class SistemaTickets extends JFrame {
 		btnTicket.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					UIGTicket uigt = new UIGTicket(conexion);
+					UIGTicket uigt = new UIGTicket(conexion, id);
 
 					uigt.setVisible(true);
 					contentPane.add(uigt);
