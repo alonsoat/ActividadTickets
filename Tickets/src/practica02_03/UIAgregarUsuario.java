@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
@@ -23,43 +24,80 @@ import javax.swing.border.TitledBorder;
 
 import java.awt.Color;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class UIAgregarUsuario extends JFrame {
 
 	private JPanel contentPane;
+	private JTextArea text_mensaje;
+	private JTextField text_titulo;
 
 	/**
 	 * Create the frame.
 	 */
-	public UIAgregarUsuario(final Connection conexion) {
+	public UIAgregarUsuario(final Connection conexion, final UIGTicket uigTicket) {
 		setResizable(false);
 		setTitle("Nuevo Ticket");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 495, 139);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 495, 186);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBorder(new TitledBorder(null, "Mensaje", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(6, 11, 359, 90);
-		contentPane.add(panel);
-		panel.setLayout(new GridLayout(0, 1, 0, 0));
+		JPanel panel_mensaje = new JPanel();
+		panel_mensaje.setBackground(Color.WHITE);
+		panel_mensaje.setBorder(new TitledBorder(null, "Mensaje", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_mensaje.setBounds(10, 63, 361, 90);
+		contentPane.add(panel_mensaje);
+		panel_mensaje.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		
-		JTextArea textArea = new JTextArea();
-		JScrollPane scroll = new JScrollPane(textArea);
-		panel.add(scroll);
+		text_mensaje = new JTextArea();
+		JScrollPane scroll = new JScrollPane(text_mensaje);
+		panel_mensaje.add(scroll);
 		
 		JButton btn_crear = new JButton("Crear");
 		btn_crear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				TicketUtil ticket = new TicketUtil();
-				//Codigo de crearMensaje;
+				String texto_mensaje = text_mensaje.getText();
+				String texto_titulo = text_titulo.getText();
+				
+				if(texto_mensaje.equals("")){
+					
+					JOptionPane.showMessageDialog(null, "El mensaje no puede estar vacio");
+				} else if(text_titulo.equals("")){
+					
+					JOptionPane.showMessageDialog(null, "El titulo no puede estar vacio.");
+				
+				} else{
+				
+					Ticket ticket = new Ticket();
+					ticket.setEstado("Obert");
+					
+					Mensaje mensaje = new Mensaje();
+					mensaje.setId_ticket(ticket.insertar(conexion));
+					mensaje.setId_usuario(1);
+					mensaje.setImatge("NULL");
+					mensaje.setText(texto_mensaje);
+					mensaje.setTitol(texto_titulo);
+					mensaje.insertar(conexion);
+					
+					try {
+						
+						uigTicket.mostrarTabla(conexion);
+						
+					} catch (SQLException e) {
+						
+						e.printStackTrace();
+						
+					}
+					
+					dispose();
+					
+				}
 				
 			}
 		});
@@ -69,10 +107,33 @@ public class UIAgregarUsuario extends JFrame {
 		JButton btn_cancelar = new JButton("Cancelar");
 		btn_cancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					
+					uigTicket.mostrarTabla(conexion);
+					
+				} catch (SQLException e) {
+					
+					e.printStackTrace();
+					
+				}
+				
 				dispose();
+				
 			}
 		});
 		btn_cancelar.setBounds(381, 59, 89, 23);
 		contentPane.add(btn_cancelar);
+		
+		JPanel panel_titulo = new JPanel();
+		panel_titulo.setBackground(Color.WHITE);
+		panel_titulo.setBorder(new TitledBorder(null, "Titulo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_titulo.setBounds(10, 11, 359, 43);
+		contentPane.add(panel_titulo);
+		panel_titulo.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		text_titulo = new JTextField();
+		panel_titulo.add(text_titulo);
+		text_titulo.setColumns(10);
 	}
 }

@@ -21,6 +21,8 @@ public class SistemaTickets extends JFrame {
 	 */
 	private static final long serialVersionUID = 5243002624411531663L;
 	private JPanel contentPane;
+	
+	int id = -1;
 
 	
 	/**

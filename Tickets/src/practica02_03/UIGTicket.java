@@ -33,11 +33,14 @@ import java.awt.Insets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
+
+import com.sun.org.apache.xml.internal.security.encryption.AgreementMethod;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -81,9 +84,8 @@ public class UIGTicket extends JPanel {
 		btn_agregar = new JButton("Agregar");
 		btn_agregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				UIAgregarUsuario agregar_u = new UIAgregarUsuario(conexion);
-				agregar_u.setVisible(true);
+							
+				llamarAgregarTicket(conexion);
 				
 			}
 		});
@@ -265,11 +267,15 @@ public class UIGTicket extends JPanel {
 			tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento());
 		}else{
 			try{
+				
 				tickets = tickets_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento());
+			
 			}catch(NumberFormatException e){
+				
 				text_buscar.setText("");
 				JOptionPane.showMessageDialog(null, "Debes introducir números");
 				todo_bien = false;
+				
 			}
 		}
 		
@@ -324,6 +330,13 @@ public class UIGTicket extends JPanel {
 			
 			return depart[comb_depart.getSelectedIndex()];
 		}
+		
+	}
+	
+	public void llamarAgregarTicket(Connection conexion){
+		
+		UIAgregarUsuario agregar_u = new UIAgregarUsuario(conexion, this);
+		agregar_u.setVisible(true);
 		
 	}
 	

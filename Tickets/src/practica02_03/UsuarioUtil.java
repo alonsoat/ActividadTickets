@@ -63,8 +63,7 @@ public class UsuarioUtil {
 					+ "FROM usuaris AS u, missatges AS m , tickets AS t "
 					+ "WHERE t.id = m.id_ticket "
 					+ "AND m.id_usuari = u.id "
-					+ "AND t.id = ? "
-					+ "AND admin = 0;";
+					+ "AND t.id = ?;";
 			
 			preparedStatament = conexion.prepareStatement(sql);
 		
