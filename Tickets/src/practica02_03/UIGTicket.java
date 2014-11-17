@@ -97,7 +97,7 @@ public class UIGTicket extends JPanel {
 		btn_modificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//Codigo de modificar ticket
+				llamarModificarTicket(conexion);
 				
 			}
 		});
@@ -108,7 +108,7 @@ public class UIGTicket extends JPanel {
 		btn_eliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//Codigo de elminar ticket
+				llamarEliminarTicket(conexion);
 				
 			}
 		});
@@ -119,7 +119,7 @@ public class UIGTicket extends JPanel {
 		btn_MostrarMensajes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//Codigo de mostrar mensajes
+				llamarMensajesTicket(conexion);
 				
 			}
 		});
@@ -222,25 +222,7 @@ public class UIGTicket extends JPanel {
 		
 		mostrarTabla(conexion);
 		
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-								
-				if(table.getSelectedRow() != -1){
-					
-					btn_modificar.setEnabled(true);
-					btn_eliminar.setEnabled(true);
-					btn_MostrarMensajes.setEnabled(true);
-					
-				} else {
-					
-					btn_modificar.setEnabled(false);
-					btn_eliminar.setEnabled(false);
-					btn_MostrarMensajes.setEnabled(false);
-					
-				}
-			}
-		});
+		
 	}
 	
 	public void mostrarTabla(Connection conexion) throws SQLException{
@@ -312,6 +294,26 @@ public class UIGTicket extends JPanel {
 			    
 			}
 			
+			table.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+									
+					if(table.getSelectedRow() != -1){
+						
+						btn_modificar.setEnabled(true);
+						btn_eliminar.setEnabled(true);
+						btn_MostrarMensajes.setEnabled(true);
+						
+					} else {
+						
+						btn_modificar.setEnabled(false);
+						btn_eliminar.setEnabled(false);
+						btn_MostrarMensajes.setEnabled(false);
+						
+					}
+				}
+			});
+			
 			panel_central.removeAll();
 			
 			panel_central.add(new JScrollPane(table), BorderLayout.CENTER);
@@ -337,10 +339,39 @@ public class UIGTicket extends JPanel {
 	
 	public void llamarAgregarTicket(Connection conexion, int id){
 		
-		UIAgregarUsuario agregar_u = new UIAgregarUsuario(conexion, this, id);
-		agregar_u.setVisible(true);
+		UIAgregarUsuario agregar_t = new UIAgregarUsuario(conexion, this, id);
+		agregar_t.setVisible(true);
 		
-	}	
+	}
+	
+	public void llamarModificarTicket(Connection conexion){
+		
+		
+		int id=(int) table.getValueAt(table.getSelectedRow(), 0);
+		String estado = (String) table.getValueAt(table.getSelectedRow(), 1);
+		String fecha_apert = (String) table.getValueAt(table.getSelectedRow(), 2);
+		String fecha_cerr = (String) table.getValueAt(table.getSelectedRow(), 3);
+		
+		if(!estado.equals("Tancat")){
+			Ticket ticket = new Ticket(id, estado, fecha_apert, fecha_cerr);
+			
+			UIModificarTicket modificar_t = new UIModificarTicket(conexion, this, ticket);
+			
+		}else{
+			JOptionPane.showMessageDialog(null, "El tique ya esta cerrado, no es posible modificarlo");
+		}
+		//
+		
+	}
+	
+	public void llamarEliminarTicket(Connection conexion){
+		
+		
+	}
+	
+	public void llamarMensajesTicket(Connection conexion){
+		
+	}
 	
 
 }

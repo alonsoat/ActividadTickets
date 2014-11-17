@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import java.awt.GridLayout;
 
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -26,7 +27,7 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class UIAgregarUsuario extends JFrame {
+public class UIAgregarUsuario extends JDialog {
 
 	private JPanel contentPane;
 	private JTextArea text_mensaje;
@@ -36,6 +37,8 @@ public class UIAgregarUsuario extends JFrame {
 	 * Create the frame.
 	 */
 	public UIAgregarUsuario(final Connection conexion, final UIGTicket uigTicket, final int id) {
+		setLocationRelativeTo(uigTicket);
+		setModal(true);
 		setResizable(false);
 		setTitle("Nuevo Ticket");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -78,7 +81,8 @@ public class UIAgregarUsuario extends JFrame {
 					ticket.setEstado("Obert");
 					
 					Mensaje mensaje = new Mensaje();
-					mensaje.setId_ticket(ticket.insertar(conexion));
+					ticket.insertar(conexion);
+					mensaje.setId_ticket(ticket.getId());
 					mensaje.setId_usuario(id);
 					mensaje.setImatge("NULL");
 					mensaje.setText(texto_mensaje);
@@ -94,7 +98,7 @@ public class UIAgregarUsuario extends JFrame {
 						e.printStackTrace();
 						
 					}
-					
+					uigTicket.setVisible(true);
 					dispose();
 					
 				}
@@ -117,7 +121,7 @@ public class UIAgregarUsuario extends JFrame {
 					e.printStackTrace();
 					
 				}
-				
+				uigTicket.setVisible(true);
 				dispose();
 				
 			}
