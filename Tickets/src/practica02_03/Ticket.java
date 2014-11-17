@@ -124,10 +124,11 @@ public class Ticket {
 					 * 
 					 */
 					
-					String sqlFecha = "UPDATE tickets SET data_tanca=CURRENT_TIMESTAMP";
+					String sqlFecha = "UPDATE tickets SET data_tanca=CURRENT_TIMESTAMP WHERE id=?";
 					
 					PreparedStatement preparedStatament2 = conexion.prepareStatement(sqlFecha);
 					
+					preparedStatament2.setInt(1, this.id);
 					
 					preparedStatament2.executeUpdate();
 					
