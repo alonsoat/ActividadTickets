@@ -68,7 +68,6 @@ public class UIModificarTicket extends JDialog {
 				}
 				uigTicket.deshabilitarBotones();
 				dispose();
-				
 			}
 		});
 		panel_1.add(btn_aceptar);

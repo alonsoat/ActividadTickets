@@ -182,5 +182,4 @@ public class UILogin extends JFrame {
 		panel_confirm.add(btnSalir);
 	}
 
-
 }

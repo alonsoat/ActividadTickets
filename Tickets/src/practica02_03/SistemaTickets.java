@@ -23,7 +23,6 @@ public class SistemaTickets extends JFrame {
 	private JPanel contentPane;
 	
 	int id = -1;
-
 	
 	/**
 	 * Create the frame.

@@ -26,7 +26,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.SQLException;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
 
 public class UIAgregarUsuario extends JDialog {
@@ -141,6 +140,5 @@ public class UIAgregarUsuario extends JDialog {
 		text_titulo = new JTextField();
 		panel_titulo.add(text_titulo);
 		text_titulo.setColumns(10);
-		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{panel_titulo, text_mensaje, btn_crear, btn_cancelar}));
 	}
 }
