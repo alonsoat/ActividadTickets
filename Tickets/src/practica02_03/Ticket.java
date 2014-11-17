@@ -14,6 +14,9 @@ public class Ticket {
 	
 	private PreparedStatement preparedStatament = null;
 	
+	public Ticket(){
+		
+	}
 	
 	public Ticket(int id,String estado,String fecha_apert,String fecha_cerr){
 		
@@ -26,7 +29,7 @@ public class Ticket {
 	
 	
 	public void insertar(Connection conexion){
-		
+	
 		int id_ticket = 0;
 		
 		try{

@@ -12,6 +12,8 @@ import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
+import com.sun.jmx.snmp.daemon.CommunicationException;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -95,6 +97,7 @@ public class UILogin extends JFrame {
 										  "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
 										  "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
 	                    	"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b");
+			
 			public boolean shouldYieldFocus(JComponent input) {
 				boolean inputOK = verify(input);
 	            if (inputOK) {
@@ -105,6 +108,7 @@ public class UILogin extends JFrame {
 	                return false;
 	            }
 	        }
+			
 			public boolean verify(JComponent input) {
 				JTextField field = (JTextField) input;
 	            Matcher m = pat.matcher(field.getText());
@@ -140,28 +144,28 @@ public class UILogin extends JFrame {
 					Usuario login = new Usuario();
 					
 					try {
-						conexion = DriverManager.getConnection("jdbc:mysql://" + maquina + "/" +  bbdd, usuari, pass);
+						
+						conexion = DriverManager.getConnection("jdbc:mysql://" + textIPaddress.getText() + "/" +  bbdd, usuari, pass);
 									
 						login.setNombre(usuario);
 						login.setPass(password);
+					
+						if(login.validarUsuario(conexion)){
+			
+							SistemaTickets sistick = new SistemaTickets(conexion, login.isAdmin());
+							sistick.setVisible(true);
+							dispose();
+							
+							
+						} else{
+							
+							JOptionPane.showMessageDialog(null, "El usuario o password no son validos");
+						}
 						
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-					if(login.validarUsuario(conexion)){
-		
-						//Validar y iniciar panel si es correcto
-	
-						SistemaTickets sistick = new SistemaTickets(conexion, login.isAdmin());
-						sistick.setVisible(true);
-						dispose();
 						
+						JOptionPane.showMessageDialog(null, "Error en la conexión");
 						
-					} else{
-						
-						JOptionPane.showMessageDialog(null, "El usuario o password no son validos");
 					}
 				}
 				

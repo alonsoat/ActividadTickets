@@ -82,7 +82,8 @@ public class UIGTicket extends JPanel {
 		btn_agregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//Codigo de agregar ticket
+				UIAgregarUsuario agregar_u = new UIAgregarUsuario(conexion);
+				agregar_u.setVisible(true);
 				
 			}
 		});

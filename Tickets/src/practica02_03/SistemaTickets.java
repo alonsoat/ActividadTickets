@@ -21,25 +21,8 @@ public class SistemaTickets extends JFrame {
 	 */
 	private static final long serialVersionUID = 5243002624411531663L;
 	private JPanel contentPane;
-	
 
-	/**
-	 * Launch the application.
-	 */
-	/*
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SistemaTickets frame = new SistemaTickets();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-*/
+	
 	/**
 	 * Create the frame.
 	 */
@@ -47,11 +30,11 @@ public class SistemaTickets extends JFrame {
 		setResizable(false);
 		setTitle("Gestor de Tickets");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 820, 500);
+		setBounds(100, 100, 840, 500);
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JButton btnTicket = new JButton("Gesti\u00F3n Ticket");
+		JButton btnTicket = new JButton("Tickets");
 		btnTicket.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -69,7 +52,7 @@ public class SistemaTickets extends JFrame {
 		});
 		menuBar.add(btnTicket);
 		
-		JButton btnUsuarios = new JButton("Gesti\u00F3n Usuarios");
+		JButton btnUsuarios = new JButton("Usuarios");
 		menuBar.add(btnUsuarios);
 		
 		contentPane = new JPanel();
