@@ -13,11 +13,10 @@ public class MensajeUtil {
 	public ArrayList<Mensaje> mostarMensajes(Connection conexion,int id_ticket,int id_usuario){
 		
 		ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
+		
+		
 		try{
 			
-		
-		
-		
 		String sql = "SELECT * FROM missatges WHERE id_usuari = ? AND id_ticket = ?";
 		
 		preparedStatament = conexion.prepareStatement(sql);
@@ -51,7 +50,6 @@ public class MensajeUtil {
 			System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError recuperando mensajes");
 			
 		}
-	
 	
 		return mensajes;
 		
