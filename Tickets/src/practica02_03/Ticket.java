@@ -34,7 +34,7 @@ public class Ticket {
 		
 		try{
 			
-		String sql = "INSERT INTO tickets estat VALUES ?;";
+		String sql = "INSERT INTO tickets (estat) VALUES (?);";
 		
 		
 		preparedStatament = conexion.prepareStatement(sql,preparedStatament.RETURN_GENERATED_KEYS);
