@@ -3,6 +3,7 @@ package practica02_03;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -11,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -18,13 +20,13 @@ import java.awt.event.ActionEvent;
 public class UIModificarTicket extends JDialog {
 
 	private JPanel contentPane;
-	private String[] estados = {"Abierta", "Cerrada"};
+	private String[] estados = {"Obert", "Tancat"};
 	private JComboBox comboBox;
 
 	/**
 	 * Create the frame.
 	 */
-	public UIModificarTicket(final Connection conexion, final UIGTicket uigTicket, final Ticket ticket) {
+	public UIModificarTicket(final Connection conexion, final UIGTicket uigTicket, final Ticket ticket, int id) {
 		setLocationRelativeTo(uigTicket);
 		setModal(true);
 		setResizable(false);
@@ -56,7 +58,15 @@ public class UIModificarTicket extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				ticket.setEstado(estados[comboBox.getSelectedIndex()]);
-				ticket.actualizar(conexion);
+				ticket.actualizar(conexion, id);
+				
+				try {
+					uigTicket.mostrarTabla(conexion);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				uigTicket.deshabilitarBotones();
 				dispose();
 				
 			}
@@ -66,6 +76,13 @@ public class UIModificarTicket extends JDialog {
 		JButton btn_cancelar = new JButton("Cancelar");
 		btn_cancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
+					uigTicket.mostrarTabla(conexion);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				uigTicket.deshabilitarBotones();
 				dispose();
 				
 			}

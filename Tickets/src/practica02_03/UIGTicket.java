@@ -86,7 +86,7 @@ public class UIGTicket extends JPanel {
 		btn_agregar = new JButton("Agregar");
 		btn_agregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-							
+					
 				llamarAgregarTicket(conexion, id);
 				
 			}
@@ -298,19 +298,7 @@ public class UIGTicket extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 									
-					if(table.getSelectedRow() != -1){
-						
-						btn_modificar.setEnabled(true);
-						btn_eliminar.setEnabled(true);
-						btn_MostrarMensajes.setEnabled(true);
-						
-					} else {
-						
-						btn_modificar.setEnabled(false);
-						btn_eliminar.setEnabled(false);
-						btn_MostrarMensajes.setEnabled(false);
-						
-					}
+					deshabilitarBotones();
 				}
 			});
 			
@@ -355,7 +343,8 @@ public class UIGTicket extends JPanel {
 		if(!estado.equals("Tancat")){
 			Ticket ticket = new Ticket(id, estado, fecha_apert, fecha_cerr);
 			
-			UIModificarTicket modificar_t = new UIModificarTicket(conexion, this, ticket);
+			UIModificarTicket modificar_t = new UIModificarTicket(conexion, this, ticket, id);
+			modificar_t.setVisible(true);
 			
 		}else{
 			JOptionPane.showMessageDialog(null, "El tique ya esta cerrado, no es posible modificarlo");
@@ -370,6 +359,24 @@ public class UIGTicket extends JPanel {
 	}
 	
 	public void llamarMensajesTicket(Connection conexion){
+		
+	}
+	
+	public void deshabilitarBotones(){
+		
+		if(table.getSelectedRow() != -1){
+			
+			btn_modificar.setEnabled(true);
+			btn_eliminar.setEnabled(true);
+			btn_MostrarMensajes.setEnabled(true);
+			
+		} else {
+			
+			btn_modificar.setEnabled(false);
+			btn_eliminar.setEnabled(false);
+			btn_MostrarMensajes.setEnabled(false);
+			
+		}
 		
 	}
 	
