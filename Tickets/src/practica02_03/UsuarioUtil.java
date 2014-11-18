@@ -143,10 +143,7 @@ public Usuario getUsuarioTicket(Connection conexion, String depart, String estat
 				String pass = rs.getString("pass");
 				String departament = rs.getString("departament");
 				Boolean admin =	rs.getBoolean("admin");
-				
-				System.out.println(pos);
-				System.out.println(id + "-" + nombre + "-" + mail + "-" + pass + "-" + departament + "-" + admin );
-					
+									
 				u = new Usuario(id, nombre, mail, pass, departament, admin);
 		
 			//}
