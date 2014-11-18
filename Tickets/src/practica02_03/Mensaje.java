@@ -265,6 +265,14 @@ public void eliminar(Connection conexion){
 		
 	}
 
+	@Override
+	public String toString() {
+		return "Mensaje [id=" + id + ", titol=" + titol + ", text=" + text
+				+ ", imatge=" + imatge + ", fechaCrea=" + fechaCrea + "]";
+	}
+	
+	
+
 
 	
 }

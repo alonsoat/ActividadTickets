@@ -47,17 +47,12 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 
 public class UIGTicket extends JPanel {
-	
-	/**
-	 * 
-	 * 
-	 * 
-	 */
-	
+
 	private static final long serialVersionUID = -7508988054079361673L;
 	private JTable table;
 	private JTextField text_buscar;
 	private String[] depart = {"Todas", "Administració", "Informàtica", "Disseny", "Màrketing"};
+	private ArrayList<Integer> ids_table = new ArrayList<>();
 	private ButtonGroup group = new ButtonGroup();
 	private DefaultTableModel modelo;
 	private JComboBox<String> comb_depart;
@@ -114,7 +109,12 @@ public class UIGTicket extends JPanel {
 		btn_eliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				llamarEliminarTicket(conexion);
+				try {
+					llamarEliminarTicket(conexion);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -352,6 +352,7 @@ public class UIGTicket extends JPanel {
 					usuario = usuutil.getUsuarioTicket(conexion, devolverDepartamento(), group.getSelection().getActionCommand(), pos);
 				}
 	
+				ids_table.add(usuario.getId());
 				fila[4] = usuario.getNombre();
 				fila[5] = usuario.getDepartament();
 				
@@ -435,13 +436,32 @@ public class UIGTicket extends JPanel {
 		
 	}
 	
-	public void llamarEliminarTicket(Connection conexion){
+	public void llamarEliminarTicket(Connection conexion) throws SQLException{
 		
+		int id=(int) table.getValueAt(table.getSelectedRow(), 0);
+		String estado = (String) table.getValueAt(table.getSelectedRow(), 1);
+		String fecha_apert = (String) table.getValueAt(table.getSelectedRow(), 2);
+		String fecha_cerr = (String) table.getValueAt(table.getSelectedRow(), 3);
+		
+		Ticket ticket = new Ticket(id, estado, fecha_apert, fecha_cerr);
+		
+		ticket.eliminar(conexion);
+		deshabilitarBotones();
+		mostrarTabla(conexion);
 		
 	}
 	
 	public void llamarMensajesTicket(Connection conexion){
+		/*
+		int id_ticket = (int) table.getValueAt(table.getSelectedRow(), 0);
 		
+		UIMensajes int_mensajes = new UIMensajes(conexion, id_ticket, ids_table.get(table.getSelectedRow()));
+		
+		panel_central.removeAll();
+		panel_central.add(int_mensajes, BorderLayout.CENTER);
+		
+		SwingUtilities.updateComponentTreeUI(panel_central);
+		*/
 	}
 	
 	public void deshabilitarBotones(){
