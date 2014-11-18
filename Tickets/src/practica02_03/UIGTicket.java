@@ -57,7 +57,7 @@ public class UIGTicket extends JPanel {
 	private static final long serialVersionUID = -7508988054079361673L;
 	private JTable table;
 	private JTextField text_buscar;
-	private String[] depart = {"Todas", "Administració", "Informàtica", "Diseny", "Màrketing"};
+	private String[] depart = {"Todas", "Administració", "Informàtica", "Disseny", "Màrketing"};
 	private ButtonGroup group = new ButtonGroup();
 	private DefaultTableModel modelo;
 	private JComboBox<String> comb_depart;
