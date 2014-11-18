@@ -104,6 +104,7 @@ public class Mensaje {
 		
 			}
 	
+			rs.close();
 			preparedStatament.close();
 
 			}catch(SQLException ex){

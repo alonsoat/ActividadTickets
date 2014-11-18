@@ -54,8 +54,9 @@ public class Ticket {
 				System.out.println("No se puede recoger el ultimo Id");
 
 			}
-
+			cogerId.close();
 		}
+		
 		
 		preparedStatament.close();
 	
@@ -92,7 +93,8 @@ public class Ticket {
 				System.out.println("===================================================================================");
 			
 				}
-		
+				
+				rs.close();
 				preparedStatament.close();
 
 				}catch(SQLException ex){

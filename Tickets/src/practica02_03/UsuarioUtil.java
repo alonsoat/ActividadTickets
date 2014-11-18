@@ -28,19 +28,20 @@ public class UsuarioUtil {
 			
 			while(rs.next()){
 				
-			int id= rs.getInt("id");
-			String nombre = rs.getString("nom");
-			String mail = rs.getString("mail");
-			String pass = rs.getString("pass");
-			String departament = rs.getString("departament");
-			Boolean admin =	rs.getBoolean("admin");
-				
-			Usuario u = new Usuario(id,nombre,mail,pass,departament,admin);
-		
-			usuarios.add(u);
+				int id= rs.getInt("id");
+				String nombre = rs.getString("nom");
+				String mail = rs.getString("mail");
+				String pass = rs.getString("pass");
+				String departament = rs.getString("departament");
+				Boolean admin =	rs.getBoolean("admin");
+					
+				Usuario u = new Usuario(id,nombre,mail,pass,departament,admin);
+			
+				usuarios.add(u);
 			
 			}
 	
+			rs.close();
 			preparedStatament.close();
 			
 		}catch(SQLException ex){
@@ -54,27 +55,32 @@ public class UsuarioUtil {
 	}
 	
 	
-	public Usuario getUsuarioTicket(Connection conexion,int id_ticket){
+	public Usuario getUsuarioTicket(Connection conexion, int id_ticket, String depart, String estat, int pos){
 		
 		Usuario u = null;
 		
 		try{
 			
-			String sql = "SELECT u.* "
+			String sql = "SELECT t.id AS id_tick, t.estat, t.data_obri, t. data_tanca, u.* "
 					+ "FROM usuaris AS u, missatges AS m , tickets AS t "
 					+ "WHERE t.id = m.id_ticket "
 					+ "AND m.id_usuari = u.id "
-					+ "AND t.id = ?;";
+					+ "AND t.id = ? "
+					+ "AND t.estat LIKE ? "
+					+ "AND u.departament LIKE ?;";
 			
-			preparedStatament = conexion.prepareStatement(sql);
+			preparedStatament = conexion.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
 		
 			
 			preparedStatament.setInt(1, id_ticket);
+			preparedStatament.setString(2, estat);
+			preparedStatament.setString(3, depart);
 			ResultSet rs = preparedStatament.executeQuery();
 			
+			rs.absolute(pos);
 			
-			
-			while(rs.next()){
+			//while(rs.next()){
 				
 				int id= rs.getInt("id");
 				String nombre = rs.getString("nom");
@@ -82,11 +88,15 @@ public class UsuarioUtil {
 				String pass = rs.getString("pass");
 				String departament = rs.getString("departament");
 				Boolean admin =	rs.getBoolean("admin");
+				
+				System.out.println(pos);
+				System.out.println(id + "-" + nombre + "-" + mail + "-" + pass + "-" + departament + "-" + admin );
 					
-				u = new Usuario(id,nombre,mail,pass,departament,admin);
+				u = new Usuario(id, nombre, mail, pass, departament, admin);
 		
-			}
+			//}
 			
+			rs.close();
 			preparedStatament.close();
 			
 		}catch(SQLException ex){
@@ -94,15 +104,10 @@ public class UsuarioUtil {
 			System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError recuperando usuario desde id ticket");
 			
 		}
-		
-		
+			
 		return u;
 		
 		
-	}
-
-	
-	
-	
+	}	
 
 }

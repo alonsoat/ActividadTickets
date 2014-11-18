@@ -44,6 +44,7 @@ public class TicketUtil {
 			
 			}
 	
+			rs.close();
 			preparedStatament.close();
 			
 		}catch(SQLException ex){
@@ -91,6 +92,7 @@ public class TicketUtil {
 		
 			}
 	
+			rs.close();
 			preparedStatament.close();
 			
 		}catch(SQLException ex){

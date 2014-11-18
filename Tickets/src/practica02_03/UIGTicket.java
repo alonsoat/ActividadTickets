@@ -41,6 +41,10 @@ import javax.swing.border.EmptyBorder;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class UIGTicket extends JPanel {
 	
@@ -66,6 +70,7 @@ public class UIGTicket extends JPanel {
 	private JButton btn_eliminar;
 	private JButton btn_modificar;
 	private JButton btn_agregar;
+	private Usuario login;
 	
 	
 	/**
@@ -76,7 +81,7 @@ public class UIGTicket extends JPanel {
 	public UIGTicket(final Connection conexion, final Usuario login
 			) throws SQLException {
 		setLayout(new BorderLayout(0, 0));
-		
+		this.login = login;
 		JPanel panel_botones = new JPanel();
 		panel_botones.setBorder(new EmptyBorder(20, 10, 20, 10));
 		panel_botones.setBackground(Color.WHITE);
@@ -152,6 +157,17 @@ public class UIGTicket extends JPanel {
 		panel_busqueda.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		text_buscar = new JTextField();
+		text_buscar.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				try {
+					mostrarTabla(conexion);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		panel_busqueda.add(text_buscar);
 		text_buscar.setColumns(30);
 		
@@ -169,24 +185,67 @@ public class UIGTicket extends JPanel {
 		panel_filtro.add(panel_estado, gbc_panel_estado);
 		
 		rdbtn_todas = new JRadioButton("Todas");
+		rdbtn_todas.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				
+				if(rdbtn_todas.isSelected() && rdbtn_cerradas != null && rdbtn_activas != null){
+					try {
+						mostrarTabla(conexion);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+			}
+		});
 		rdbtn_todas.setBackground(Color.WHITE);
 		rdbtn_todas.setSelected(true);
 		rdbtn_todas.setActionCommand("%");
 		panel_estado.add(rdbtn_todas);
-		group.add(rdbtn_todas);
+		
 		
 		rdbtn_activas = new JRadioButton("Abiertas");
+		rdbtn_activas.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				
+				if(rdbtn_activas.isSelected()){
+					try {
+						mostrarTabla(conexion);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+			}
+		});
 		rdbtn_activas.setBackground(Color.WHITE);
 		rdbtn_activas.setSelected(false);
 		rdbtn_activas.setActionCommand("Obert");
 		panel_estado.add(rdbtn_activas);
 		
 		rdbtn_cerradas = new JRadioButton("Cerradas");
+		rdbtn_cerradas.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				
+				if(rdbtn_cerradas.isSelected()){
+					try {
+						mostrarTabla(conexion);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+			}
+		});
 		rdbtn_cerradas.setBackground(Color.WHITE);
 		rdbtn_cerradas.setSelected(false);
 		rdbtn_cerradas.setActionCommand("Tancat");
 		panel_estado.add(rdbtn_cerradas);
 		
+		group.add(rdbtn_todas);
 		group.add(rdbtn_activas);
 		group.add(rdbtn_cerradas);
 		
@@ -200,12 +259,8 @@ public class UIGTicket extends JPanel {
 		gbc_panel_departa.gridy = 0;
 		panel_filtro.add(panel_departa, gbc_panel_departa);
 		comb_depart = new JComboBox(depart);
-		panel_departa.add(comb_depart);
-		
-		JButton btn_refrescar = new JButton(new ImageIcon("refresco.icon"));
-		btn_refrescar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+		comb_depart.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
 				try {
 					mostrarTabla(conexion);
 				} catch (SQLException e1) {
@@ -214,10 +269,7 @@ public class UIGTicket extends JPanel {
 				}
 			}
 		});
-		GridBagConstraints gbc_btn_refrescar = new GridBagConstraints();
-		gbc_btn_refrescar.gridx = 4;
-		gbc_btn_refrescar.gridy = 0;
-		panel_filtro.add(btn_refrescar, gbc_btn_refrescar);
+		panel_departa.add(comb_depart);
 		panel_central = new JPanel(new GridLayout());
 		add(panel_central, BorderLayout.CENTER);
 		
@@ -264,10 +316,16 @@ public class UIGTicket extends JPanel {
 			}
 		}
 		
+		int pos=0;
+		
 		if(todo_bien){
 			Ticket ticket = null;
 			
+			UsuarioUtil usuutil = null;
+			Usuario usuario = null;
+			
 			for(int i=0; i<tickets.size(); i++){
+				pos++;
 				
 				Object[] fila = new Object[6];
 				ticket = tickets.get(i);
@@ -276,9 +334,9 @@ public class UIGTicket extends JPanel {
 				fila[2] = ticket.getFecha_apert();
 				fila[3] = ticket.getFecha_cerr();
 				
-				Usuario usuario = new Usuario();
-				UsuarioUtil usuutil = new UsuarioUtil();
-				usuario = usuutil.getUsuarioTicket(conexion, ticket.getId());
+				usuario = new Usuario();
+				usuutil = new UsuarioUtil();
+				usuario = usuutil.getUsuarioTicket(conexion, ticket.getId(), devolverDepartamento(), group.getSelection().getActionCommand(), pos);
 				
 				fila[4] = usuario.getNombre();
 				fila[5] = usuario.getDepartament();
@@ -341,16 +399,24 @@ public class UIGTicket extends JPanel {
 		String fecha_apert = (String) table.getValueAt(table.getSelectedRow(), 2);
 		String fecha_cerr = (String) table.getValueAt(table.getSelectedRow(), 3);
 		
-		if(!estado.equals("Tancat")){
-			Ticket ticket = new Ticket(id, estado, fecha_apert, fecha_cerr);
-			
-			UIModificarTicket modificar_t = new UIModificarTicket(conexion, this, ticket, login);
-			modificar_t.setVisible(true);
-			
-		}else{
-			JOptionPane.showMessageDialog(null, "El tique ya esta cerrado, no es posible modificarlo");
+	
+		Ticket ticket = new Ticket(id, estado, fecha_apert, fecha_cerr);
+		
+		if(ticket.getEstado().equals("Obert")){
+			ticket.setEstado("Tancat");
+		}else if(ticket.getEstado().equals("Tancat")){
+			ticket.setEstado("Obert");
 		}
-		//
+		ticket.actualizar(conexion, login.isAdmin());
+		
+		try {
+			mostrarTabla(conexion);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+	
 		
 	}
 	
@@ -367,13 +433,26 @@ public class UIGTicket extends JPanel {
 		
 		if(table.getSelectedRow() != -1){
 			
-			btn_modificar.setEnabled(true);
+			String estado_consulta = (String) table.getValueAt(table.getSelectedRow(), 1);
+			
+			if(estado_consulta.equals("Obert")){
+				btn_modificar.setEnabled(true);
+				btn_modificar.setText("Cerrar");
+			} else if (estado_consulta.equals("Tancat") && login.isAdmin()){
+				btn_modificar.setEnabled(true);
+				btn_modificar.setText("Reabrir");
+			} else if(estado_consulta.equals("Tancat") && !login.isAdmin()){
+				btn_modificar.setEnabled(false);
+				btn_modificar.setText("Reabrir");
+			}
+			
 			btn_eliminar.setEnabled(true);
 			btn_MostrarMensajes.setEnabled(true);
 			
 		} else {
 			
 			btn_modificar.setEnabled(false);
+			btn_modificar.setText("Modificar");
 			btn_eliminar.setEnabled(false);
 			btn_MostrarMensajes.setEnabled(false);
 			
