@@ -142,8 +142,8 @@ public class UILogin extends JFrame {
 					
 					try {
 						
-						conexion = DriverManager.getConnection("jdbc:mysql://" + textIPaddress.getText() + "/" +  bbdd, usuari, pass);
-									
+						conexion = DriverManager.getConnection("jdbc:mysql://" + textIPaddress.getText() + "/" +  bbdd + "?zeroDateTimeBehavior=convertToNull", usuari, pass);
+			
 						login.setNombre(usuario);
 						login.setPass(password);
 					
