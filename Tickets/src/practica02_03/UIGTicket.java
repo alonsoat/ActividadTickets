@@ -335,7 +335,7 @@ public class UIGTicket extends JPanel {
 				
 			for(int i=0; i<tickets.size(); i++){
 				pos++;
-				System.out.println(pos);
+				
 				Object[] fila = new Object[6];
 				ticket = tickets.get(i);
 				fila[0] = ticket.getId();
@@ -345,6 +345,7 @@ public class UIGTicket extends JPanel {
 					
 				usuario = new Usuario();
 				usuutil = new UsuarioUtil();
+				
 				if(con_id){
 					usuario = usuutil.getUsuarioTicket(conexion, ticket.getId(), devolverDepartamento(), group.getSelection().getActionCommand(), pos);
 				} else {
