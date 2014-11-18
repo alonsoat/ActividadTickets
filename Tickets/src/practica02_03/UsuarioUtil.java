@@ -110,5 +110,60 @@ public class UsuarioUtil {
 		
 		
 	}	
+	
+public Usuario getUsuarioTicket(Connection conexion, String depart, String estat, int pos){
+		
+		Usuario u = null;
+		
+		try{
+			
+			String sql = "SELECT t.id AS id_tick, t.estat, t.data_obri, t. data_tanca, u.* "
+					+ "FROM usuaris AS u, missatges AS m , tickets AS t "
+					+ "WHERE t.id = m.id_ticket "
+					+ "AND m.id_usuari = u.id "
+					+ "AND t.estat LIKE ? "
+					+ "AND u.departament LIKE ?;";
+			
+			preparedStatament = conexion.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+		
+			
+			preparedStatament.setString(1, estat);
+			preparedStatament.setString(2, depart);
+			
+			ResultSet rs = preparedStatament.executeQuery();
+			
+			rs.absolute(pos);
+			
+			//while(rs.next()){
+				
+				int id= rs.getInt("id");
+				String nombre = rs.getString("nom");
+				String mail = rs.getString("mail");
+				String pass = rs.getString("pass");
+				String departament = rs.getString("departament");
+				Boolean admin =	rs.getBoolean("admin");
+				
+				System.out.println(pos);
+				System.out.println(id + "-" + nombre + "-" + mail + "-" + pass + "-" + departament + "-" + admin );
+					
+				u = new Usuario(id, nombre, mail, pass, departament, admin);
+		
+			//}
+			
+			rs.close();
+			preparedStatament.close();
+			
+		}catch(SQLException ex){
+			
+			System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError recuperando usuario desde id ticket");
+			
+		}
+			
+		return u;
+		
+		
+	}	
+	
 
 }

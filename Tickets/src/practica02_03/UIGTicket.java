@@ -279,6 +279,8 @@ public class UIGTicket extends JPanel {
 	}
 	
 	public void mostrarTabla(Connection conexion) throws SQLException{
+
+		boolean con_id = false;
 		boolean todo_bien = true;
 		
 		modelo = new DefaultTableModel();	
@@ -300,74 +302,86 @@ public class UIGTicket extends JPanel {
 		TicketUtil tickets_bus = new TicketUtil();
 		ArrayList<Ticket> tickets = null;
 		
+		int pos;
+		
 		if(text_buscar.getText().equals("")){
+			
+			con_id=false;
+			
 			tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento());
-		}else{
+		} else {
+			
 			try{
 				
+				con_id=true;
+				
 				tickets = tickets_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento());
-			
+				
 			}catch(NumberFormatException e){
 				
 				text_buscar.setText("");
 				JOptionPane.showMessageDialog(null, "Debes introducir números");
-				todo_bien = false;
+				todo_bien=false;
 				
 			}
 		}
 		
-		
-		
 		if(todo_bien){
+			pos = 0;
 			Ticket ticket = null;
-			
+				
 			UsuarioUtil usuutil = null;
 			Usuario usuario = null;
-			int pos=tickets.size();
-			System.out.println(pos);
-			for(int i=0; i<tickets.size(); i++){
 				
-				Object[] fila = new Object[4];
+			for(int i=0; i<tickets.size(); i++){
+				pos++;
+				System.out.println(pos);
+				Object[] fila = new Object[6];
 				ticket = tickets.get(i);
 				fila[0] = ticket.getId();
 				fila[1] = ticket.getEstado();
 				fila[2] = ticket.getFecha_apert();
 				fila[3] = ticket.getFecha_cerr();
-				/*
+					
 				usuario = new Usuario();
 				usuutil = new UsuarioUtil();
-				usuario = usuutil.getUsuarioTicket(conexion, ticket.getId(), devolverDepartamento(), group.getSelection().getActionCommand(), pos);
-				
+				if(con_id){
+					usuario = usuutil.getUsuarioTicket(conexion, ticket.getId(), devolverDepartamento(), group.getSelection().getActionCommand(), pos);
+				} else {
+					usuario = usuutil.getUsuarioTicket(conexion, devolverDepartamento(), group.getSelection().getActionCommand(), pos);
+				}
+	
 				fila[4] = usuario.getNombre();
 				fila[5] = usuario.getDepartament();
-				pos--;*/
-				modelo.addRow(fila);
 				
+				modelo.addRow(fila);
+					
 			}
 			
+				
 			//Para que no se puedan modificar los campos
 			for (int j = 0; j < table.getColumnCount(); j++){
-				
-			    Class<?> col_class = table.getColumnClass(j);
-			    table.setDefaultEditor(col_class, null);        // remove editor
+					
+				Class<?> col_class = table.getColumnClass(j);
+				table.setDefaultEditor(col_class, null);        // remove editor
 			    
 			}
 			
 			table.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 									
-					deshabilitarBotones();
+				deshabilitarBotones();
 				}
 			});
-			
+				
 			panel_central.removeAll();
-			
+				
 			panel_central.add(new JScrollPane(table), BorderLayout.CENTER);
-			
+				
 			SwingUtilities.updateComponentTreeUI(panel_central);
-			
-		}
+		}	
+		
 	
 	}
 	
