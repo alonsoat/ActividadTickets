@@ -430,7 +430,7 @@ public class UIGTicket extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-			
+		deshabilitarBotones();	
 	
 		
 	}
