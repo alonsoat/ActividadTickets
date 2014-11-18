@@ -316,31 +316,31 @@ public class UIGTicket extends JPanel {
 			}
 		}
 		
-		int pos=0;
+		
 		
 		if(todo_bien){
 			Ticket ticket = null;
 			
 			UsuarioUtil usuutil = null;
 			Usuario usuario = null;
-			
+			int pos=tickets.size();
+			System.out.println(pos);
 			for(int i=0; i<tickets.size(); i++){
-				pos++;
 				
-				Object[] fila = new Object[6];
+				Object[] fila = new Object[4];
 				ticket = tickets.get(i);
 				fila[0] = ticket.getId();
 				fila[1] = ticket.getEstado();
 				fila[2] = ticket.getFecha_apert();
 				fila[3] = ticket.getFecha_cerr();
-				
+				/*
 				usuario = new Usuario();
 				usuutil = new UsuarioUtil();
 				usuario = usuutil.getUsuarioTicket(conexion, ticket.getId(), devolverDepartamento(), group.getSelection().getActionCommand(), pos);
 				
 				fila[4] = usuario.getNombre();
 				fila[5] = usuario.getDepartament();
-				
+				pos--;*/
 				modelo.addRow(fila);
 				
 			}

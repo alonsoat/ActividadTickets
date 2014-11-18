@@ -76,6 +76,7 @@ public class UsuarioUtil {
 			preparedStatament.setInt(1, id_ticket);
 			preparedStatament.setString(2, estat);
 			preparedStatament.setString(3, depart);
+			
 			ResultSet rs = preparedStatament.executeQuery();
 			
 			rs.absolute(pos);
