@@ -93,6 +93,7 @@ public class Ticket {
 			
 				}
 		
+				preparedStatament.close();
 
 				}catch(SQLException ex){
 					
@@ -100,11 +101,11 @@ public class Ticket {
 					
 				}
 			
-			
+				
 			
 			}
 		
-		public void actualizar(Connection conexion){
+		public void actualizar(Connection conexion,boolean admin){
 			
 			try{
 				
@@ -115,13 +116,14 @@ public class Ticket {
 				preparedStatament.setString(1,this.estado);
 				preparedStatament.setInt(2,this.id);
 				
-				if(this.estado.equals("Tancat")){
+				if(this.estado.equals("Tancat") && admin == true ){
 					
 					/*
 					 * Probar las 2 formas de cambiar la fecha. 
 					 * Desde codigo en el propio metodo, mezclando 2 conexiones.
 					 * Llamando al metodo cambiarFecha , que se le pasa una conexion.
 					 * 
+					 * Hacer consulta para saber si el usuario es administrador
 					 */
 					
 					String sqlFecha = "UPDATE tickets SET data_tanca=CURRENT_TIMESTAMP WHERE id=?";
@@ -135,6 +137,20 @@ public class Ticket {
 					preparedStatament2.close();
 					
 					//cambiarFecha(conexion);
+					
+					
+				}else if(this.estado.equals("Obert") && admin == true ){
+					
+					String sqlFecha = "UPDATE tickets SET data_tanca=null AND data_obri=CURRENT_TIMESTAMP WHERE id=?";
+					
+					PreparedStatement preparedStatament2 = conexion.prepareStatement(sqlFecha);
+					
+					preparedStatament2.setInt(1, this.id);
+					
+					preparedStatament2.executeUpdate();
+					
+					preparedStatament2.close();
+					
 					
 					
 				}

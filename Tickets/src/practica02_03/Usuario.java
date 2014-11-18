@@ -114,6 +114,7 @@ public class Usuario {
 		
 			}
 	
+			preparedStatament.close();
 
 			}catch(SQLException ex){
 				
@@ -209,7 +210,7 @@ public class Usuario {
 					
 			}
 			
-				
+			preparedStatament.close();
 			
 		}catch(SQLException ex){
 			

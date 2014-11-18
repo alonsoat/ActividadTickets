@@ -43,7 +43,6 @@ public class MensajeUtil {
 		
 		rs.close();
 		preparedStatament.close();
-		conexion.close();
 		
 		}catch(SQLException ex){
 			

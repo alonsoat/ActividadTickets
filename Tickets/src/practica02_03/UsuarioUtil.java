@@ -41,6 +41,7 @@ public class UsuarioUtil {
 			
 			}
 	
+			preparedStatament.close();
 			
 		}catch(SQLException ex){
 			
@@ -86,7 +87,7 @@ public class UsuarioUtil {
 		
 			}
 			
-			
+			preparedStatament.close();
 			
 		}catch(SQLException ex){
 			
