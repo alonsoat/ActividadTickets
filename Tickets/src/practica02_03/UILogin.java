@@ -30,7 +30,6 @@ public class UILogin extends JFrame {
 	private String password;
 	
 	private static Connection conexion;
-	private String maquina = "localhost";
 	private String bbdd = "tickets";
 	private String usuari = "root";
 	private String pass = "";

@@ -401,7 +401,7 @@ public class UIGTicket extends JPanel {
 	
 	public void llamarAgregarTicket(Connection conexion, Usuario login){
 		
-		UIAgregarUsuario agregar_t = new UIAgregarUsuario(conexion, this, login.getId());
+		UIAgregarTicket agregar_t = new UIAgregarTicket(conexion, this, login.getId());
 		agregar_t.setVisible(true);
 		
 	}

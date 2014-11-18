@@ -28,7 +28,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.awt.Component;
 
-public class UIAgregarUsuario extends JDialog {
+public class UIAgregarTicket extends JDialog {
 
 	private JPanel contentPane;
 	private JTextArea text_mensaje;
@@ -37,7 +37,7 @@ public class UIAgregarUsuario extends JDialog {
 	/**
 	 * Create the frame.
 	 */
-	public UIAgregarUsuario(final Connection conexion, final UIGTicket uigTicket, final int id) {
+	public UIAgregarTicket(final Connection conexion, final UIGTicket uigTicket, final int id) {
 		setLocationRelativeTo(uigTicket);
 		setModal(true);
 		setResizable(false);
