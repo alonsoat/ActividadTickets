@@ -41,6 +41,8 @@ import javax.swing.border.EmptyBorder;
 
 import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.FocusAdapter;
@@ -164,14 +166,19 @@ public class UIGTicket extends JPanel {
 		panel_busqueda.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		text_buscar = new JTextField();
-		text_buscar.addFocusListener(new FocusAdapter() {
+		text_buscar.addKeyListener(new KeyAdapter() {
 			@Override
-			public void focusLost(FocusEvent e) {
-				try {
-					mostrarTabla(conexion);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+				
+					try {
+						mostrarTabla(conexion);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 				}
 			}
 		});
@@ -515,7 +522,14 @@ public class UIGTicket extends JPanel {
 				btn_modificar.setText("Reabrir");
 			}
 			
-			btn_eliminar.setEnabled(true);
+			//Modificar si al final usuario puede cerrar
+			if(!login.isAdmin()){ btn_modificar.setEnabled(false);}
+			
+			if(login.isAdmin()){
+				btn_eliminar.setEnabled(true);
+			}else{
+				btn_eliminar.setEnabled(false);
+			}
 			
 			if(estado_consulta.equals("Tancat")){
 				btn_MostrarMensajes.setEnabled(false);

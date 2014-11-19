@@ -122,7 +122,7 @@ public ArrayList<Ticket> buscar(Connection conexion,int busqueda, String activa,
 					+ "AND t.id = ? "
 					+ "AND t.estat LIKE ? "
 					+ "AND u.departament LIKE ? "
-					+ "AND u.admin = 0"
+					+ "AND u.admin = 0 "
 					+ "AND u.id = ?";
 			
 			preparedStatament = conexion.prepareStatement(sql);
@@ -173,7 +173,7 @@ public ArrayList<Ticket> buscar(Connection conexion,int busqueda, String activa,
 					+ "AND t.id = m.id_ticket "
 					+ "AND t.estat LIKE ? "
 					+ "AND u.departament LIKE ? "
-					+ "AND u.admin = 0"
+					+ "AND u.admin = 0 "
 					+ "AND u.id = ?";
 			
 			preparedStatament = conexion.prepareStatement(sql);

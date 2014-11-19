@@ -2,17 +2,16 @@ package practica02_03;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -24,7 +23,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -40,8 +38,6 @@ public class UIUsuarios extends JPanel {
 	private JTable table;
 	private JTextField text_buscar;
 	private String[] depart = {"Todas", "Administració", "Informàtica", "Disseny", "Màrketing"};
-	private ArrayList<Integer> ids_table = new ArrayList<>();
-	private ButtonGroup group = new ButtonGroup();
 	private DefaultTableModel modelo;
 	private JComboBox<String> comb_depart;
 	private JPanel panel_central;
@@ -68,7 +64,7 @@ public class UIUsuarios extends JPanel {
 		btn_agregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					
-				llamarAgregarUsuario(conexion, login);
+				llamarAgregarUsuario(conexion);
 				
 			}
 		});
@@ -89,7 +85,12 @@ public class UIUsuarios extends JPanel {
 		btn_eliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
+				try {
+					llamarEliminarUsuario(conexion);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -121,14 +122,19 @@ public class UIUsuarios extends JPanel {
 		panel_busqueda.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		text_buscar = new JTextField();
-		text_buscar.addFocusListener(new FocusAdapter() {
+		text_buscar.addKeyListener(new KeyAdapter() {
 			@Override
-			public void focusLost(FocusEvent e) {
-				try {
-					mostrarTabla(conexion);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+				
+					try {
+						mostrarTabla(conexion);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 				}
 			}
 		});
@@ -179,22 +185,20 @@ public class UIUsuarios extends JPanel {
 		
 		
 		modelo.addColumn("ID");
-		modelo.addColumn("Estado");
-		modelo.addColumn("Fecha Apertura");
-		modelo.addColumn("Fecha Cerrada");
-		modelo.addColumn("Usuario");
+		modelo.addColumn("Nombre");
+		modelo.addColumn("E-Mail");
 		modelo.addColumn("Departamento");
+		modelo.addColumn("Administrador");
 				
 		UsuarioUtil usuarios_bus = new UsuarioUtil();
 		ArrayList<Usuario> usuarios = null;
-		
-		int pos;
+
 		
 		if(text_buscar.getText().equals("")){
 			
 			con_id=false;
 			
-			usuarios = usuarios_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento());
+			usuarios = usuarios_bus.listarUsuarios(conexion, devolverDepartamento());
 			
 		
 		} else {
@@ -203,7 +207,7 @@ public class UIUsuarios extends JPanel {
 				
 				con_id=true;
 				
-				usuarios = usuarios_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento());
+				usuarios = usuarios_bus.listarUsuarios(conexion, devolverDepartamento(), Integer.parseInt(text_buscar.getText()));
 
 				
 			}catch(NumberFormatException e){
@@ -218,32 +222,29 @@ public class UIUsuarios extends JPanel {
 		String adminis;
 		
 		if(todo_bien){
-			pos = 0;
-			Ticket ticket = null;
-				
-			UsuarioUtil usuutil = null;
+			
 			Usuario usuario = null;
 				
 			for(int i=0; i<usuarios.size(); i++){
-				pos++;
 				
-				Object[] fila = new Object[3];
+				Object[] fila = new Object[5];
 				usuario = usuarios.get(i);
-				fila[0] = usuario.getNombre();
-				fila[1] = usuario.getMail();
-				fila[2] = usuario.getDepartament();
+				fila[0] = usuario.getId();
+				fila[1] = usuario.getNombre();
+				fila[2] = usuario.getMail();
+				fila[3] = usuario.getDepartament();
 				
 				if(usuario.isAdmin()){
 					
-					adminis="Administrador";
+					adminis="Si";
 					
 				}else{
 					
-					adminis="Usuario";
+					adminis="No";
 					
 				}
 				
-				fila[3] = adminis;
+				fila[4] = adminis;
 					
 				modelo.addRow(fila);
 					
@@ -291,10 +292,17 @@ public class UIUsuarios extends JPanel {
 		
 	}
 
+	public void llamarAgregarUsuario(Connection conexion){
+		
+		
+		
+		
+	}
+	
 	
 	public void llamarModificarTicket(Connection conexion, Usuario login){
 		
-		
+		/*
 		int id=(int) table.getValueAt(table.getSelectedRow(), 0);
 		String estado = (String) table.getValueAt(table.getSelectedRow(), 1);
 		String fecha_apert = (String) table.getValueAt(table.getSelectedRow(), 2);
@@ -321,20 +329,15 @@ public class UIUsuarios extends JPanel {
 			e.printStackTrace();
 		}
 		deshabilitarBotones();	
-	
+	*/
 		
 	}
 	
-	public void llamarEliminarTicket(Connection conexion) throws SQLException{
-		
-		int id=(int) table.getValueAt(table.getSelectedRow(), 0);
-		String estado = (String) table.getValueAt(table.getSelectedRow(), 1);
-		String fecha_apert = (String) table.getValueAt(table.getSelectedRow(), 2);
-		String fecha_cerr = (String) table.getValueAt(table.getSelectedRow(), 3);
-		
-		Ticket ticket = new Ticket(id, estado, fecha_apert, fecha_cerr);
-		
-		ticket.eliminar(conexion);
+	public void llamarEliminarUsuario(Connection conexion) throws SQLException{
+			
+		Usuario usuario = new Usuario();
+		usuario.eliminar(conexion, (int) table.getValueAt(table.getSelectedRow(), 0));
+
 		deshabilitarBotones();
 		mostrarTabla(conexion);
 		
@@ -355,6 +358,8 @@ public class UIUsuarios extends JPanel {
 		}
 		
 	}
+	
+	
 	
 
 }
