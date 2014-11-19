@@ -469,7 +469,7 @@ public class UIGTicket extends JPanel {
 		
 		int id_ticket = (int) table.getValueAt(table.getSelectedRow(), 0);
 		
-		UIMensajes int_mensajes = new UIMensajes(conexion, id_ticket, ids_table.get(table.getSelectedRow()));
+		UIMensajes int_mensajes = new UIMensajes(conexion, id_ticket, login, ids_table.get(table.getSelectedRow()));
 		
 		removeAll();
 		add(int_mensajes, BorderLayout.CENTER);
@@ -496,7 +496,12 @@ public class UIGTicket extends JPanel {
 			}
 			
 			btn_eliminar.setEnabled(true);
-			btn_MostrarMensajes.setEnabled(true);
+			
+			if(estado_consulta.equals("Tancat")){
+				btn_MostrarMensajes.setEnabled(false);
+			}else if(estado_consulta.equals("Obert")){
+				btn_MostrarMensajes.setEnabled(true);
+			}
 			
 		} else {
 			

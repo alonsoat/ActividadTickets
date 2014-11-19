@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.awt.Color;
 
 public class SistemaTickets extends JFrame {
 
@@ -33,6 +34,7 @@ public class SistemaTickets extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 840, 500);
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBackground(Color.WHITE);
 		setJMenuBar(menuBar);
 		
 		JButton btnTicket = new JButton("Tickets");

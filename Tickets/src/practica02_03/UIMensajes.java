@@ -24,39 +24,66 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+
+import javax.swing.UIManager;
+import javax.swing.SwingConstants;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UIMensajes extends JPanel {
 	
 	private JTable table;
 	private DefaultTableModel modelo;
 	private JTextField txt_mensaje;
+	JPanel panel_central;
+	private JTextField txt_titulo;
 	
 	/**
 	 * Create the panel.
 	 * @throws SQLException 
 	 */
-	public UIMensajes(final Connection conexion, final int id_ticket, int id_usuario) throws SQLException {
+	public UIMensajes(final Connection conexion, final int id_ticket, final Usuario login, final int id_usuario) throws SQLException {
+		
+		setLayout(new BorderLayout(0, 0));
+		panel_central = new JPanel();
+		panel_central.setLayout(new GridLayout());
+		add(panel_central, BorderLayout.CENTER);
 		
 		mostrarTabla(conexion, id_ticket);
-		setLayout(new BorderLayout(0, 0));
-		JPanel panel_central = new JPanel();
-		add(panel_central);
-		panel_central.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JScrollPane scrollPane = new JScrollPane(table);
-		panel_central.add(scrollPane);
+		JPanel panel_mensaje_c = new JPanel();
+		panel_mensaje_c.setBackground(Color.WHITE);
+		panel_mensaje_c.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Incidencia", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		add(panel_mensaje_c, BorderLayout.SOUTH);
+		panel_mensaje_c.setLayout(new BorderLayout(0, 0));
 		
+		JPanel panel_titulo = new JPanel();
+		panel_titulo.setBackground(Color.WHITE);
+		panel_titulo.setBorder(new TitledBorder(null, "Titulo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_mensaje_c.add(panel_titulo, BorderLayout.NORTH);
+		panel_titulo.setLayout(new BorderLayout(100, 0));
 		
+		txt_titulo = new JTextField();
+		panel_titulo.add(txt_titulo, BorderLayout.CENTER);
+		txt_titulo.setColumns(30);
+		
+		JButton btn_mostrar = new JButton("Mostrar Mensaje");
+		btn_mostrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, "[Titulo]\n" + table.getValueAt(table.getSelectedRow(), 1) + "\n\n[Mensaje]\n" + table.getValueAt(table.getSelectedRow(), 2));
+			}
+		});
+		panel_titulo.add(btn_mostrar, BorderLayout.EAST);
 		
 		JPanel panel_mensaje = new JPanel();
 		panel_mensaje.setBackground(Color.WHITE);
 		panel_mensaje.setBorder(new TitledBorder(null, "Mensaje", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		add(panel_mensaje, BorderLayout.SOUTH);
-		panel_mensaje.setLayout(new BorderLayout(0, 0));
-		
-		JPanel panel = new JPanel();
-		panel_mensaje.add(panel, BorderLayout.CENTER);
-		panel.setLayout(new GridLayout(0, 1, 0, 0));
+		panel_mensaje_c.add(panel_mensaje, BorderLayout.CENTER);
+		panel_mensaje.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		txt_mensaje = new JTextField();
 		txt_mensaje.addKeyListener(new KeyAdapter() {
@@ -64,34 +91,49 @@ public class UIMensajes extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+				
+					enviarMensaje(conexion, id_ticket, id_usuario);
 					
-					try {
-						
-						Mensaje msg = new Mensaje("hol2", txt_mensaje.getText());
-
-						msg.insertar(conexion);
-						
-						mostrarTabla(conexion, id_ticket);
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				}
+			}
+		});
+		panel_mensaje.add(txt_mensaje);
+		txt_mensaje.setColumns(10);
+		
+		JPanel panel_botones = new JPanel();
+		panel_botones.setBackground(Color.WHITE);
+		panel_mensaje_c.add(panel_botones, BorderLayout.EAST);
+		panel_botones.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 10));
+		
+		JButton btn_enviar = new JButton("Enviar");
+		btn_enviar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				enviarMensaje(conexion, id_ticket, id_usuario);
+				
+			}
+		});
+		panel_botones.add(btn_enviar);
+		
+		JButton btn_Volver = new JButton("Volver");
+		btn_Volver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+				
+					removeAll();
+					UIGTicket uigt = new UIGTicket(conexion, login);
+					add(uigt);
+					uigt.setVisible(true);
+					SwingUtilities.updateComponentTreeUI(uigt);
 					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				
 			}
 		});
-		panel.add(txt_mensaje);
-		txt_mensaje.setColumns(10);
-		
-		JPanel panel_botones = new JPanel();
-		panel_mensaje.add(panel_botones, BorderLayout.EAST);
-		panel_botones.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JButton btn_enviar = new JButton("Enviar");
-		panel_botones.add(btn_enviar);
-		
-		JButton btn_Volver = new JButton("Volver");
 		panel_botones.add(btn_Volver);
 		
 	}
@@ -107,6 +149,7 @@ public class UIMensajes extends JPanel {
 		table.setModel(modelo);
 		
 		modelo.addColumn("Usuario");
+		modelo.addColumn("Titulo");
 		modelo.addColumn("Texto");
 		modelo.addColumn("Fecha Creación");
 				
@@ -118,7 +161,7 @@ public class UIMensajes extends JPanel {
 		
 		for(int i=0; i<mensajes.size(); i++){
 						
-			Object[] fila = new Object[3];
+			Object[] fila = new Object[4];
 			mensaje = mensajes.get(i);
 			
 			usuario = new Usuario();
@@ -127,8 +170,9 @@ public class UIMensajes extends JPanel {
 			usuario.buscarId(conexion);
 			
 			fila[0] = usuario.getNombre();
-			fila[1] = mensaje.getText();
-			fila[2] = mensaje.getFechaCrea();
+			fila[1] = mensaje.getTitol();
+			fila[2] = mensaje.getText();
+			fila[3] = mensaje.getFechaCrea();
 					
 			modelo.addRow(fila);
 					
@@ -143,15 +187,47 @@ public class UIMensajes extends JPanel {
 			    
 		}
 			
-		removeAll();
-				
+		panel_central.removeAll();			
+		panel_central.add(table);
+		
 		SwingUtilities.updateComponentTreeUI(this);
 		
 		
 		
 		
 	}
-		
 	
-
+	public void enviarMensaje(Connection conexion, int id_ticket, int id_usuario){	
+			
+		if(txt_titulo.equals("") && txt_mensaje.equals("")){
+					
+			JOptionPane.showMessageDialog(null, "Falta introducir un titulo y el mensaje de la consulta");
+					
+		}else if(txt_titulo.equals("")){
+					
+			JOptionPane.showMessageDialog(null, "Falta introducir un titulo de la consulta");
+					
+		} else if(txt_mensaje.equals("")){
+					
+			JOptionPane.showMessageDialog(null, "Falta introducir el mensaje de la consulta");
+					
+		}else{
+					
+			try {
+						
+				Mensaje msg = new Mensaje(txt_titulo.getText(), txt_mensaje.getText());
+				msg.setId_ticket(id_ticket);
+				msg.setId_usuario(id_usuario);
+	
+				msg.insertar(conexion);
+					
+				mostrarTabla(conexion, id_ticket);
+						
+			} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}	
+	
+	}
 }
