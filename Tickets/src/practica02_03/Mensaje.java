@@ -42,12 +42,11 @@ public class Mensaje {
 	}
 	
 	
-	public Mensaje(String titol,String text,String imatge){
+	public Mensaje(String titol,String text){
 		
 		this.titol = titol;
 		this.text = text;
-		this.imatge = imatge;
-		this.fechaCrea = fechaCrea;
+		this.imatge = null;
 		
 	}
 	
