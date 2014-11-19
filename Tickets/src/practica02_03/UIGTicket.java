@@ -316,14 +316,31 @@ public class UIGTicket extends JPanel {
 			
 			con_id=false;
 			
-			tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento());
+			if(login.isAdmin()){
+				
+				tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento(), login.isAdmin());
+			
+			} else {
+				
+				//tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento());
+				
+			}
+			
 		} else {
 			
 			try{
 				
 				con_id=true;
 				
-				tickets = tickets_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento());
+				if(login.isAdmin()){
+					
+					tickets = tickets_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento(), login.isAdmin());
+				
+				}else{
+					
+					//Consulta
+					
+				}
 				
 			}catch(NumberFormatException e){
 				
