@@ -263,7 +263,7 @@ public class Usuario {
 	}*/
 	
 	
-	public void buscarId(Connection conexion,int id){
+	public void buscarId(Connection conexion){
 		
 		try{
 			
