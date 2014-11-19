@@ -39,6 +39,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
 
+import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.FocusAdapter;
@@ -301,6 +303,7 @@ public class UIGTicket extends JPanel {
 				
 		TicketUtil tickets_bus = new TicketUtil();
 		ArrayList<Ticket> tickets = null;
+		ids_table.removeAll(ids_table);
 		
 		int pos;
 		
@@ -368,12 +371,13 @@ public class UIGTicket extends JPanel {
 				table.setDefaultEditor(col_class, null);        // remove editor
 			    
 			}
-			
+						
 			table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 									
 				deshabilitarBotones();
+				
 				}
 			});
 				
@@ -382,6 +386,7 @@ public class UIGTicket extends JPanel {
 			panel_central.add(new JScrollPane(table), BorderLayout.CENTER);
 				
 			SwingUtilities.updateComponentTreeUI(panel_central);
+			
 		}	
 		
 	
@@ -419,9 +424,13 @@ public class UIGTicket extends JPanel {
 		Ticket ticket = new Ticket(id, estado, fecha_apert, fecha_cerr);
 		
 		if(ticket.getEstado().equals("Obert")){
+			
 			ticket.setEstado("Tancat");
+			
 		}else if(ticket.getEstado().equals("Tancat")){
+			
 			ticket.setEstado("Obert");
+			
 		}
 		ticket.actualizar(conexion, login.isAdmin());
 		
@@ -452,16 +461,16 @@ public class UIGTicket extends JPanel {
 	}
 	
 	public void llamarMensajesTicket(Connection conexion){
-		/*
+		
 		int id_ticket = (int) table.getValueAt(table.getSelectedRow(), 0);
 		
 		UIMensajes int_mensajes = new UIMensajes(conexion, id_ticket, ids_table.get(table.getSelectedRow()));
 		
-		panel_central.removeAll();
-		panel_central.add(int_mensajes, BorderLayout.CENTER);
+		removeAll();
+		add(int_mensajes, BorderLayout.CENTER);
 		
-		SwingUtilities.updateComponentTreeUI(panel_central);
-		*/
+		SwingUtilities.updateComponentTreeUI(this);
+		
 	}
 	
 	public void deshabilitarBotones(){

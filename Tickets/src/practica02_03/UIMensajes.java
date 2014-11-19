@@ -16,17 +16,22 @@ import javax.swing.JButton;
 import java.awt.GridLayout;
 
 public class UIMensajes extends JPanel {
-	/*
+	
 	private JTable table;
 	private DefaultTableModel modelo;
 	
 	/**
 	 * Create the panel.
-	 
+	 */
 	public UIMensajes(Connection conexion, int id_ticket, int id_usuario) {
-
+		
 		modelo = new DefaultTableModel();	
 		modelo.fireTableDataChanged();
+		table = new JTable();		
+		
+		table.setEnabled(true);
+		table.setBorder(null);
+		table.setModel(modelo);
 		
 		modelo.addColumn("ID");
 		modelo.addColumn("Titulo");
@@ -68,18 +73,32 @@ public class UIMensajes extends JPanel {
 		removeAll();
 				
 		SwingUtilities.updateComponentTreeUI(this);
+		setLayout(new BorderLayout(0, 0));
 		
-		table = new JTable();		
+		JPanel panel_central = new JPanel();
+		add(panel_central);
+		panel_central.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		table.setEnabled(true);
-		table.setBorder(null);
-		table.setModel(modelo);
+		
 		
 		JScrollPane scrollPane = new JScrollPane(table);
-		add(scrollPane);
+		panel_central.add(scrollPane);
+		
+		JPanel panel_btones = new JPanel();
+		add(panel_btones, BorderLayout.EAST);
+		panel_btones.setLayout(new GridLayout(5, 1, 0, 0));
+		
+		JButton btnNewButton = new JButton("New button");
+		panel_btones.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		panel_btones.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("New button");
+		panel_btones.add(btnNewButton_2);
 		
 	}	
 		
-	*/
+	
 
 }
