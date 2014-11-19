@@ -291,7 +291,7 @@ public class Usuario {
 			preparedStatament.close();
 			
 		}catch(SQLException ex){
-			
+			  
 			System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError validando el usuario");
 			
 		}

@@ -41,6 +41,16 @@ public class Mensaje {
 		
 	}
 	
+	
+	public Mensaje(String titol,String text,String imatge){
+		
+		this.titol = titol;
+		this.text = text;
+		this.imatge = imatge;
+		this.fechaCrea = fechaCrea;
+		
+	}
+	
 	public Mensaje(int id,String titol,String text,String imatge,String fechaCrea,int id_usuari,int id_ticket){
 		
 		this.id=id;
@@ -60,17 +70,17 @@ public class Mensaje {
 		try{
 			
 			
-		String sql = "INSERT INTO missatges (titol,text,imatge,id_usuari,id_ticket) VALUES (?,?,?,?,?);";
+		String sql = "INSERT INTO missatges (id,titol,text,imatge,id_usuari,id_ticket) VALUES (?,?,?,?,?,?);";
 		
 	
 		preparedStatament = conexion.prepareStatement(sql);
 		
-		
-		preparedStatament.setString(1,this.titol);
-		preparedStatament.setString(2,this.text);
-		preparedStatament.setString(3,this.imatge);
-		preparedStatament.setInt(4,this.id_usuario);
-		preparedStatament.setInt(5,this.id_ticket);
+		preparedStatament.setInt(1, this.id);
+		preparedStatament.setString(2,this.titol);
+		preparedStatament.setString(3,this.text);
+		preparedStatament.setString(4,this.imatge);
+		preparedStatament.setInt(5,this.id_usuario);
+		preparedStatament.setInt(6,this.id_ticket);
 		
 		preparedStatament.executeUpdate();
 		
