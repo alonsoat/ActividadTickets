@@ -37,6 +37,8 @@ public class SistemaTickets extends JFrame {
 		menuBar.setBackground(Color.WHITE);
 		setJMenuBar(menuBar);
 		
+		
+		
 		JButton btnTicket = new JButton("Tickets");
 		btnTicket.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -58,6 +60,12 @@ public class SistemaTickets extends JFrame {
 		
 		JButton btnUsuarios = new JButton("Usuarios");
 		menuBar.add(btnUsuarios);
+		
+		if(login.isAdmin()){
+			btnUsuarios.setVisible(true);
+		} else {
+			btnUsuarios.setVisible(false);
+		}
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
