@@ -17,7 +17,7 @@ public class TicketUtil {
 		try{
 			
 			
-			String sql = "SELECT t.* "
+			String sql = "SELECT DISTINCT t.* "
 					+ "FROM tickets AS t , missatges AS m , usuaris AS u "
 					+ "WHERE t.id = m.id_ticket "
 					+ "AND m.id_usuari = u.id "
