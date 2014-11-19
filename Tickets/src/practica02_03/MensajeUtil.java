@@ -10,7 +10,7 @@ public class MensajeUtil {
 	
 	private PreparedStatement preparedStatament = null;
 	
-	public ArrayList<Mensaje> mostarMensajes(Connection conexion,int id_ticket){
+	public ArrayList<Mensaje> mostarMensajes(Connection conexion,int id_tickets){
 		
 		ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
 		
@@ -21,7 +21,7 @@ public class MensajeUtil {
 		preparedStatament = conexion.prepareStatement(sql);
 		
 		
-		preparedStatament.setInt(1, id_ticket);
+		preparedStatament.setInt(1, id_tickets);
 		
 		
 		ResultSet rs = preparedStatament.executeQuery();
@@ -33,8 +33,10 @@ public class MensajeUtil {
 			String texto = rs.getString("text");
 			String imagen = rs.getString("imatge");
 			String fechaCrea = rs.getString("data_crea");
+			int id_usuari = rs.getInt("id_usuari");
+			int id_ticket = rs.getInt("id_ticket");
 			
-			Mensaje m = new Mensaje(id,titulo,texto,imagen,fechaCrea);
+			Mensaje m = new Mensaje(id,titulo,texto,imagen,fechaCrea,id_usuari,id_ticket);
 			
 			mensajes.add(m);
 			

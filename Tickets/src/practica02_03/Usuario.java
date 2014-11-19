@@ -263,7 +263,7 @@ public class Usuario {
 	}*/
 	
 	
-	public void buscarId(Connection conexion){
+	public void buscarId(Connection conexion,int id){
 		
 		try{
 			
@@ -272,7 +272,7 @@ public class Usuario {
 			preparedStatament = conexion.prepareStatement(sql);
 			
 			
-			preparedStatament.setInt(1, this.id);
+			preparedStatament.setInt(1, id);
 			
 			ResultSet rs = preparedStatament.executeQuery();
 			

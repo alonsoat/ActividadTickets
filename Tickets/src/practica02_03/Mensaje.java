@@ -41,6 +41,18 @@ public class Mensaje {
 		
 	}
 	
+	public Mensaje(int id,String titol,String text,String imatge,String fechaCrea,int id_usuari,int id_ticket){
+		
+		this.id=id;
+		this.titol = titol;
+		this.text = text;
+		this.imatge = imatge;
+		this.fechaCrea = fechaCrea;
+		this.id_usuario=id_usuari;
+		this.id_ticket = id_ticket;
+		
+	}
+	
 	
 	
 	public void insertar(Connection conexion){
