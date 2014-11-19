@@ -127,7 +127,12 @@ public class UIGTicket extends JPanel {
 		btn_MostrarMensajes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				llamarMensajesTicket(conexion);
+				try {
+					llamarMensajesTicket(conexion);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -460,7 +465,7 @@ public class UIGTicket extends JPanel {
 		
 	}
 	
-	public void llamarMensajesTicket(Connection conexion){
+	public void llamarMensajesTicket(Connection conexion) throws SQLException{
 		
 		int id_ticket = (int) table.getValueAt(table.getSelectedRow(), 0);
 		

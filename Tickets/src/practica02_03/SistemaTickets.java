@@ -45,6 +45,7 @@ public class SistemaTickets extends JFrame {
 					contentPane.add(uigt);
 					
 					SwingUtilities.updateComponentTreeUI(uigt);
+					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
