@@ -262,6 +262,45 @@ public class Usuario {
 		
 	}*/
 	
+	
+	public void buscarId(Connection conexion){
+		
+		try{
+			
+			String sql = "SELECT * FROM usuaris WHERE id = ?;";
+			
+			preparedStatament = conexion.prepareStatement(sql);
+			
+			
+			preparedStatament.setInt(1, this.id);
+			
+			ResultSet rs = preparedStatament.executeQuery();
+			
+			
+			while(rs.next()){
+				
+				this.id=rs.getInt("id");
+				this.nombre=rs.getString("nom");
+				this.pass=rs.getString("pass");
+				this.mail=rs.getString("mail");
+				this.departament=rs.getString("departament");
+					
+			}
+			
+			rs.close();
+			preparedStatament.close();
+			
+		}catch(SQLException ex){
+			
+			System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError validando el usuario");
+			
+		}
+		
+		
+		
+	}
+	
+	
 	public String getNombre() {
 		
 		return nombre;

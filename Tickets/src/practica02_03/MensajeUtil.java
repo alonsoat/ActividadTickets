@@ -10,19 +10,18 @@ public class MensajeUtil {
 	
 	private PreparedStatement preparedStatament = null;
 	
-	public ArrayList<Mensaje> mostarMensajes(Connection conexion,int id_ticket,int id_usuario){
+	public ArrayList<Mensaje> mostarMensajes(Connection conexion,int id_ticket){
 		
 		ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
 		
 		
 		try{
 			
-		String sql = "SELECT * FROM missatges WHERE id_usuari = ? AND id_ticket = ?";
-		
+		String sql = "SELECT * FROM missatges WHERE id_ticket = ? ORDER BY data_crea ASC";
 		preparedStatament = conexion.prepareStatement(sql);
 		
-		preparedStatament.setInt(1,id_usuario);
-		preparedStatament.setInt(2, id_ticket);
+		
+		preparedStatament.setInt(1, id_ticket);
 		
 		
 		ResultSet rs = preparedStatament.executeQuery();

@@ -143,7 +143,7 @@ public class Ticket {
 					
 				}else if(this.estado.equals("Obert") && admin == true ){
 					
-					String sqlFecha = "UPDATE tickets SET data_tanca=null AND data_obri=CURRENT_TIMESTAMP WHERE id=?";
+					String sqlFecha = "UPDATE tickets SET data_tanca= AND data_obri=CURRENT_TIMESTAMP WHERE id=?";
 					
 					PreparedStatement preparedStatament2 = conexion.prepareStatement(sqlFecha);
 					
