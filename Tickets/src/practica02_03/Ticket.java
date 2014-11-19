@@ -83,6 +83,7 @@ public class Ticket {
 				preparedStatament = conexion.prepareStatement(sql);
 				ResultSet rs = preparedStatament.executeQuery(sql);
 				
+				
 				while(rs.next()){
 					
 				String estado = rs.getString("estat");
