@@ -318,11 +318,12 @@ public class UIGTicket extends JPanel {
 			
 			if(login.isAdmin()){
 				
-				tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento(), login.isAdmin());
+				tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento());
 			
 			} else {
+				tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento(), login.getId());
 				
-				//tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento());
+				//Hacer consulta solo para ver sus tickets
 				
 			}
 			
@@ -334,11 +335,13 @@ public class UIGTicket extends JPanel {
 				
 				if(login.isAdmin()){
 					
-					tickets = tickets_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento(), login.isAdmin());
+					tickets = tickets_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento());
 				
 				}else{
+					tickets = tickets_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento(), login.getId());
 					
-					//Consulta
+
+					//Hacer consulta solo para ver sus tickets
 					
 				}
 				
