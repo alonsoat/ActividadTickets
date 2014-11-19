@@ -44,14 +44,9 @@ public class UIUsuarios extends JPanel {
 	private ButtonGroup group = new ButtonGroup();
 	private DefaultTableModel modelo;
 	private JComboBox<String> comb_depart;
-	private JRadioButton rdbtn_activas;
-	private JRadioButton rdbtn_cerradas;
-	private JRadioButton rdbtn_todas;
 	private JPanel panel_central;
-	
-	private JButton btn_MostrarMensajes;
 	private JButton btn_eliminar;
-	private JButton btn_modificar;
+	private JButton btn_editar;
 	private JButton btn_agregar;
 	private Usuario login;
 	
@@ -73,63 +68,42 @@ public class UIUsuarios extends JPanel {
 		btn_agregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					
-				llamarAgregarTicket(conexion, login);
+				llamarAgregarUsuario(conexion, login);
 				
 			}
 		});
 		panel_botones.add(btn_agregar);
 		
-		btn_modificar = new JButton("Modificar");
-		btn_modificar.addActionListener(new ActionListener() {
+		btn_editar = new JButton("Editar");
+		btn_editar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				llamarModificarTicket(conexion, login);
+				
 				
 			}
 		});
-		btn_modificar.setEnabled(false);
-		panel_botones.add(btn_modificar);
+		btn_editar.setEnabled(false);
+		panel_botones.add(btn_editar);
 		
 		btn_eliminar = new JButton("Eliminar");
 		btn_eliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				try {
-					llamarEliminarTicket(conexion);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				
 				
 			}
 		});
 		btn_eliminar.setEnabled(false);
 		panel_botones.add(btn_eliminar);
 		
-		btn_MostrarMensajes = new JButton("Mensajes");
-		btn_MostrarMensajes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				try {
-					llamarMensajesTicket(conexion);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-			}
-		});
-		btn_MostrarMensajes.setEnabled(false);
-		panel_botones.add(btn_MostrarMensajes);
-		
 		JPanel panel_filtro = new JPanel();
 		panel_filtro.setBackground(Color.WHITE);
 		panel_filtro.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Filtro", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		add(panel_filtro, BorderLayout.NORTH);
 		GridBagLayout gbl_panel_filtro = new GridBagLayout();
-		gbl_panel_filtro.columnWidths = new int[] {90, 258, 160, 0, 0, 0};
+		gbl_panel_filtro.columnWidths = new int[] {90, 258, 160, 0, 0, 0, 0};
 		gbl_panel_filtro.rowHeights = new int[] {50};
-		gbl_panel_filtro.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_filtro.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_filtro.rowWeights = new double[]{0.0};
 		panel_filtro.setLayout(gbl_panel_filtro);
 		
@@ -139,7 +113,7 @@ public class UIUsuarios extends JPanel {
 		
 		GridBagConstraints gbc_panel_busqueda = new GridBagConstraints();
 		gbc_panel_busqueda.fill = GridBagConstraints.HORIZONTAL;
-		gbc_panel_busqueda.gridwidth = 2;
+		gbc_panel_busqueda.gridwidth = 4;
 		gbc_panel_busqueda.insets = new Insets(0, 0, 0, 5);
 		gbc_panel_busqueda.gridx = 0;
 		gbc_panel_busqueda.gridy = 0;
@@ -161,91 +135,13 @@ public class UIUsuarios extends JPanel {
 		panel_busqueda.add(text_buscar);
 		text_buscar.setColumns(30);
 		
-		JPanel panel_estado = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel_estado.getLayout();
-		flowLayout.setHgap(12);
-		panel_estado.setBorder(new TitledBorder(null, "Estado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_estado.setBackground(Color.WHITE);
-		GridBagConstraints gbc_panel_estado = new GridBagConstraints();
-		gbc_panel_estado.fill = GridBagConstraints.VERTICAL;
-		gbc_panel_estado.anchor = GridBagConstraints.WEST;
-		gbc_panel_estado.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_estado.gridx = 2;
-		gbc_panel_estado.gridy = 0;
-		panel_filtro.add(panel_estado, gbc_panel_estado);
-		
-		rdbtn_todas = new JRadioButton("Todas");
-		rdbtn_todas.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				
-				if(rdbtn_todas.isSelected() && rdbtn_cerradas != null && rdbtn_activas != null){
-					try {
-						mostrarTabla(conexion);
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				
-			}
-		});
-		rdbtn_todas.setBackground(Color.WHITE);
-		rdbtn_todas.setSelected(true);
-		rdbtn_todas.setActionCommand("%");
-		panel_estado.add(rdbtn_todas);
-		
-		
-		rdbtn_activas = new JRadioButton("Abiertas");
-		rdbtn_activas.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				
-				if(rdbtn_activas.isSelected()){
-					try {
-						mostrarTabla(conexion);
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				
-			}
-		});
-		rdbtn_activas.setBackground(Color.WHITE);
-		rdbtn_activas.setSelected(false);
-		rdbtn_activas.setActionCommand("Obert");
-		panel_estado.add(rdbtn_activas);
-		
-		rdbtn_cerradas = new JRadioButton("Cerradas");
-		rdbtn_cerradas.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				
-				if(rdbtn_cerradas.isSelected()){
-					try {
-						mostrarTabla(conexion);
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				
-			}
-		});
-		rdbtn_cerradas.setBackground(Color.WHITE);
-		rdbtn_cerradas.setSelected(false);
-		rdbtn_cerradas.setActionCommand("Tancat");
-		panel_estado.add(rdbtn_cerradas);
-		
-		group.add(rdbtn_todas);
-		group.add(rdbtn_activas);
-		group.add(rdbtn_cerradas);
-		
 		JPanel panel_departa = new JPanel();
 		panel_departa.setBackground(Color.WHITE);
 		panel_departa.setBorder(new TitledBorder(null, "Departamento", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_departa = new GridBagConstraints();
 		gbc_panel_departa.insets = new Insets(0, 0, 0, 5);
 		gbc_panel_departa.fill = GridBagConstraints.HORIZONTAL;
-		gbc_panel_departa.gridx = 3;
+		gbc_panel_departa.gridx = 4;
 		gbc_panel_departa.gridy = 0;
 		panel_filtro.add(panel_departa, gbc_panel_departa);
 		comb_depart = new JComboBox(depart);
@@ -289,9 +185,8 @@ public class UIUsuarios extends JPanel {
 		modelo.addColumn("Usuario");
 		modelo.addColumn("Departamento");
 				
-		TicketUtil tickets_bus = new TicketUtil();
-		ArrayList<Ticket> tickets = null;
-		ids_table.removeAll(ids_table);
+		UsuarioUtil usuarios_bus = new UsuarioUtil();
+		ArrayList<Usuario> usuarios = null;
 		
 		int pos;
 		
@@ -299,34 +194,17 @@ public class UIUsuarios extends JPanel {
 			
 			con_id=false;
 			
-			if(login.isAdmin()){
-				
-				tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento());
+			usuarios = usuarios_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento());
 			
-			} else {
-				tickets = tickets_bus.buscar(conexion, group.getSelection().getActionCommand(), devolverDepartamento(), login.getId());
-				
-				//Hacer consulta solo para ver sus tickets
-				
-			}
-			
+		
 		} else {
 			
 			try{
 				
 				con_id=true;
 				
-				if(login.isAdmin()){
-					
-					tickets = tickets_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento());
-				
-				}else{
-					tickets = tickets_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento(), login.getId());
-					
+				usuarios = usuarios_bus.buscar(conexion, Integer.parseInt(text_buscar.getText()), group.getSelection().getActionCommand(), devolverDepartamento());
 
-					//Hacer consulta solo para ver sus tickets
-					
-				}
 				
 			}catch(NumberFormatException e){
 				
@@ -337,6 +215,8 @@ public class UIUsuarios extends JPanel {
 			}
 		}
 		
+		String adminis;
+		
 		if(todo_bien){
 			pos = 0;
 			Ticket ticket = null;
@@ -344,29 +224,27 @@ public class UIUsuarios extends JPanel {
 			UsuarioUtil usuutil = null;
 			Usuario usuario = null;
 				
-			for(int i=0; i<tickets.size(); i++){
+			for(int i=0; i<usuarios.size(); i++){
 				pos++;
 				
-				Object[] fila = new Object[6];
-				ticket = tickets.get(i);
-				fila[0] = ticket.getId();
-				fila[1] = ticket.getEstado();
-				fila[2] = ticket.getFecha_apert();
-				fila[3] = ticket.getFecha_cerr();
+				Object[] fila = new Object[3];
+				usuario = usuarios.get(i);
+				fila[0] = usuario.getNombre();
+				fila[1] = usuario.getMail();
+				fila[2] = usuario.getDepartament();
+				
+				if(usuario.isAdmin()){
 					
-				usuario = new Usuario();
-				usuutil = new UsuarioUtil();
-				
-				if(con_id){
-					usuario = usuutil.getUsuarioTicket(conexion, ticket.getId(), devolverDepartamento(), group.getSelection().getActionCommand(), pos);
-				} else {
-					usuario = usuutil.getUsuarioTicket(conexion, devolverDepartamento(), group.getSelection().getActionCommand(), pos);
+					adminis="Administrador";
+					
+				}else{
+					
+					adminis="Usuario";
+					
 				}
-	
-				ids_table.add(usuario.getId());
-				fila[4] = usuario.getNombre();
-				fila[5] = usuario.getDepartament();
 				
+				fila[3] = adminis;
+					
 				modelo.addRow(fila);
 					
 			}
@@ -381,11 +259,11 @@ public class UIUsuarios extends JPanel {
 			}
 						
 			table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-									
-				deshabilitarBotones();
-				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+										
+					deshabilitarBotones();
+					
 				}
 			});
 				
@@ -412,12 +290,7 @@ public class UIUsuarios extends JPanel {
 		}
 		
 	}
-	
-	public void llamarAgregarUsuario(Connection conexion, Usuario login){
-		
-	
-		
-	}
+
 	
 	public void llamarModificarTicket(Connection conexion, Usuario login){
 		
@@ -467,50 +340,17 @@ public class UIUsuarios extends JPanel {
 		
 	}
 	
-	public void llamarMensajesTicket(Connection conexion) throws SQLException{
-		
-		int id_ticket = (int) table.getValueAt(table.getSelectedRow(), 0);
-		
-		UIMensajes int_mensajes = new UIMensajes(conexion, id_ticket, login, ids_table.get(table.getSelectedRow()));
-		
-		removeAll();
-		add(int_mensajes, BorderLayout.CENTER);
-		
-		SwingUtilities.updateComponentTreeUI(this);
-		
-	}
-	
 	public void deshabilitarBotones(){
 		
 		if(table.getSelectedRow() != -1){
 			
-			String estado_consulta = (String) table.getValueAt(table.getSelectedRow(), 1);
-			
-			if(estado_consulta.equals("Obert")){
-				btn_modificar.setEnabled(true);
-				btn_modificar.setText("Cerrar");
-			} else if (estado_consulta.equals("Tancat") && login.isAdmin()){
-				btn_modificar.setEnabled(true);
-				btn_modificar.setText("Reabrir");
-			} else if(estado_consulta.equals("Tancat") && !login.isAdmin()){
-				btn_modificar.setEnabled(false);
-				btn_modificar.setText("Reabrir");
-			}
-			
+			btn_editar.setEnabled(true);
 			btn_eliminar.setEnabled(true);
-			
-			if(estado_consulta.equals("Tancat")){
-				btn_MostrarMensajes.setEnabled(false);
-			}else if(estado_consulta.equals("Obert")){
-				btn_MostrarMensajes.setEnabled(true);
-			}
-			
+	
 		} else {
 			
-			btn_modificar.setEnabled(false);
-			btn_modificar.setText("Modificar");
+			btn_editar.setEnabled(false);
 			btn_eliminar.setEnabled(false);
-			btn_MostrarMensajes.setEnabled(false);
 			
 		}
 		

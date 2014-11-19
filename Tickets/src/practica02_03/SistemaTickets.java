@@ -59,6 +59,23 @@ public class SistemaTickets extends JFrame {
 		menuBar.add(btnTicket);
 		
 		JButton btnUsuarios = new JButton("Usuarios");
+		btnUsuarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					UIUsuarios uiu = new UIUsuarios(conexion, login);
+
+					uiu.setVisible(true);
+					contentPane.add(uiu);
+					
+					SwingUtilities.updateComponentTreeUI(uiu);
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
 		menuBar.add(btnUsuarios);
 		
 		if(login.isAdmin()){
