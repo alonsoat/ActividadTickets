@@ -11,20 +11,22 @@ public class UsuarioUtil {
 	
 	private PreparedStatement preparedStatament = null;
 	
-	public ArrayList<Usuario> listarUsuarios(Connection conexion){
+	public ArrayList<Usuario> listarUsuarios(Connection conexion,String departamento){
 		
 		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 		
 		try{
 			
 			
-			String sql = "SELECT * FROM usuaris ;";
+			String sql = "SELECT * FROM usuaris WHERE departament LIKE ?;";
 			
 			preparedStatament = conexion.prepareStatement(sql);
 		
+			
+			preparedStatament.setString(1, departamento);
+			
+			
 			ResultSet rs = preparedStatament.executeQuery();
-			
-			
 			
 			while(rs.next()){
 				
@@ -49,6 +51,53 @@ public class UsuarioUtil {
 			System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError recuperando usuarios");
 			
 		}
+		
+		return usuarios;
+	}
+		
+		public ArrayList<Usuario> listarUsuarios(Connection conexion,String departamento,int id_usuario){
+			
+			ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+			
+			try{
+				
+				
+				String sql = "SELECT * FROM usuaris WHERE departament LIKE ? AND id = ? ;";
+				
+				preparedStatament = conexion.prepareStatement(sql);
+			
+				
+				
+				preparedStatament.setString(1, departamento);
+				preparedStatament.setInt(2,id_usuario);
+				
+				ResultSet rs = preparedStatament.executeQuery();
+				
+				
+				
+				while(rs.next()){
+					
+					int id= rs.getInt("id");
+					String nombre = rs.getString("nom");
+					String mail = rs.getString("mail");
+					String pass = rs.getString("pass");
+					String departament = rs.getString("departament");
+					Boolean admin =	rs.getBoolean("admin");
+						
+					Usuario u = new Usuario(id,nombre,mail,pass,departament,admin);
+				
+					usuarios.add(u);
+				
+				}
+		
+				rs.close();
+				preparedStatament.close();
+				
+			}catch(SQLException ex){
+				
+				System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError recuperando usuarios");
+				
+			}
 		
 		return usuarios;
 		

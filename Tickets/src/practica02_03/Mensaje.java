@@ -80,7 +80,7 @@ public class Mensaje {
 		preparedStatament.setInt(4,this.id_usuario);
 		preparedStatament.setInt(5,this.id_ticket);
 		
-		preparedStatament.executeUpdate();
+		preparedStatament.executeUpdate();       
 		
 		
 		
