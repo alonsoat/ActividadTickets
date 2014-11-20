@@ -42,12 +42,14 @@ public class UIMensajes extends JPanel {
 	private JTextField txt_mensaje;
 	JPanel panel_central;
 	private JTextField txt_titulo;
+	private boolean actualizar = true;
 	
 	/**
 	 * Create the panel.
 	 * @throws SQLException 
+	 * @throws InterruptedException 
 	 */
-	public UIMensajes(final Connection conexion, final int id_ticket, final Usuario login, final int id_usuario) throws SQLException {
+	public UIMensajes(final Connection conexion, final int id_ticket, final Usuario login, final int id_usuario) throws SQLException, InterruptedException {
 
 		setLayout(new BorderLayout(0, 0));
 		panel_central = new JPanel();
@@ -123,7 +125,7 @@ public class UIMensajes extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
-				
+					actualizar=false;
 					removeAll();
 					UITicket uigt = new UITicket(conexion, login);
 					add(uigt);
@@ -137,6 +139,13 @@ public class UIMensajes extends JPanel {
 				
 			}
 		});
+		
+		/*new Threadwhile(actualizar == true){
+			
+			mostrarTabla(conexion, id_ticket);
+			Thread.sleep(5000);
+			
+		}*/
 		panel_botones.add(btn_Volver);
 		
 	}
@@ -223,7 +232,8 @@ public class UIMensajes extends JPanel {
 				msg.setId_usuario(id_usuario);
 	
 				msg.insertar(conexion);
-					
+				txt_titulo.setText("");
+				txt_mensaje.setText("");
 				mostrarTabla(conexion, id_ticket);
 						
 			} catch (SQLException e1) {

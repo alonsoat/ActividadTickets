@@ -134,6 +134,9 @@ public class UITicket extends JPanel {
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				
 			}
@@ -494,7 +497,7 @@ public class UITicket extends JPanel {
 		
 	}
 	
-	public void llamarMensajesTicket(Connection conexion) throws SQLException{
+	public void llamarMensajesTicket(Connection conexion) throws SQLException, InterruptedException{
 		
 		int id_ticket = (int) table.getValueAt(table.getSelectedRow(), 0);
 		

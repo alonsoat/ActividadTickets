@@ -23,9 +23,10 @@ public class TicketUtil {
 					+ "AND m.id_usuari = u.id "
 					+ "AND t.id = ? "
 					+ "AND t.estat LIKE ? "
+					+ "AND u.admin = 0;"
 					+ "AND u.departament LIKE ? "
 					+ "ORDER BY t.id; ";
-					//+ "AND u.admin = 0;";
+					
 			
 			preparedStatament = conexion.prepareStatement(sql);
 			
@@ -74,8 +75,8 @@ public class TicketUtil {
 					+ "AND t.id = m.id_ticket "
 					+ "AND t.estat LIKE ? "
 					+ "AND u.departament LIKE ? "
+					+ "AND u.admin = 0 "
 					+ "ORDER BY t.id; ";
-					//+ "AND u.admin = 0;";
 			
 			preparedStatament = conexion.prepareStatement(sql);
 			
