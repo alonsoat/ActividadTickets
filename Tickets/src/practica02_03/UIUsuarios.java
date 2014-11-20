@@ -45,6 +45,7 @@ public class UIUsuarios extends JPanel {
 	private JButton btn_editar;
 	private JButton btn_agregar;
 	private Usuario login;
+	private JButton btn_act;
 	
 	/**
 	 * Create the panel.
@@ -162,6 +163,21 @@ public class UIUsuarios extends JPanel {
 			}
 		});
 		panel_departa.add(comb_depart);
+		
+		btn_act = new JButton("Actualizar");
+		btn_act.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					mostrarTabla(conexion);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		panel_departa.add(btn_act);
 		panel_central = new JPanel(new GridLayout());
 		add(panel_central, BorderLayout.CENTER);
 		
