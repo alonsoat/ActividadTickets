@@ -116,8 +116,8 @@ public class UsuarioUtil {
 					+ "AND m.id_usuari = u.id "
 					+ "AND t.id = ? "
 					+ "AND t.estat LIKE ? "
-					+ "AND u.departament LIKE ? "
-					+ "AND u.admin = 0;";
+					+ "AND u.departament LIKE ?; ";
+					//+ "AND u.admin = 0;";
 			
 			preparedStatament = conexion.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
@@ -169,8 +169,8 @@ public Usuario getUsuarioTicket(Connection conexion, String depart, String estat
 					+ "WHERE t.id = m.id_ticket "
 					+ "AND m.id_usuari = u.id "
 					+ "AND t.estat LIKE ? "
-					+ "AND u.departament LIKE ? "
-					+ "AND u.admin = 0;";
+					+ "AND u.departament LIKE ?; ";
+					//+ "AND u.admin = 0;";
 			
 			preparedStatament = conexion.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
