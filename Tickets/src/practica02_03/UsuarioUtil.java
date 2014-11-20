@@ -117,6 +117,7 @@ public class UsuarioUtil {
 					+ "AND t.id = ? "
 					+ "AND t.estat LIKE ? "
 					+ "AND u.departament LIKE ? "
+					+ "GROUP BY t.id " 
 					+ "ORDER BY t.id; ";
 					//+ "AND u.admin = 0;";
 			
@@ -171,6 +172,7 @@ public Usuario getUsuarioTicket(Connection conexion, String depart, String estat
 					+ "AND m.id_usuari = u.id "
 					+ "AND t.estat LIKE ? "
 					+ "AND u.departament LIKE ? "
+					+ "GROUP BY t.id " 
 					+ "ORDER BY t.id; ";
 					//+ "AND u.admin = 0;";
 			
