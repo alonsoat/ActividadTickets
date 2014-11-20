@@ -33,7 +33,6 @@ import javax.swing.SwingConstants;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
 
 public class UIMensajes extends JPanel {
@@ -137,7 +136,6 @@ public class UIMensajes extends JPanel {
 			}
 		});
 		panel_botones.add(btn_Volver);
-		panel_mensaje_c.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_titulo, txt_mensaje, btn_enviar, btn_Volver, btn_mostrar}));
 		
 	}
 	
