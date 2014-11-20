@@ -44,11 +44,11 @@ public class Usuario {
 		preparedStatament = conexion.prepareStatement(sql);
 		
 		
-		preparedStatament.setString(1,"Manolo");
-		preparedStatament.setString(2,"pepe");
-		preparedStatament.setString(3,"1235");
-		preparedStatament.setString(4,"Disseny");
-		preparedStatament.setBoolean(5, false);
+		preparedStatament.setString(1,this.nombre);
+		preparedStatament.setString(2,this.mail);
+		preparedStatament.setString(3,this.pass);
+		preparedStatament.setString(4,this.departament);
+		preparedStatament.setBoolean(5, this.admin);
 		
 		preparedStatament.executeUpdate();
 		
