@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import java.awt.event.ActionListener;
@@ -81,12 +82,17 @@ public class SistemaTickets extends JFrame {
 		JButton btn_copia = new JButton("Hacer copia de seguridad");
 		btn_copia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				UILogin ui = new UILogin();
 				
-				
-				
+					
+					ui.copiaSeguridad();
+					
+					
+					
 			}
 		});
 		menuBar.add(btn_copia);
+		
 		if(login.isAdmin()){
 			btn_copia.setVisible(true);
 		}else{
@@ -104,5 +110,8 @@ public class SistemaTickets extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 	}
+	
+	
+	
 }
 	

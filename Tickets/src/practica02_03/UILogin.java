@@ -180,5 +180,36 @@ public class UILogin extends JFrame {
 		});
 		panel_confirm.add(btnSalir);
 	}
+	
+	public boolean copiaSeguridad() {
+		 
+        String executeCmd = "mysqldump -u " + this.usuari + " -p" + this.pass + " -B " + this.bbdd + " -r " + "";
+        Process runtimeProcess;
+        
+        try {
+ 
+            runtimeProcess = Runtime.getRuntime().exec(executeCmd);
+            int processComplete = runtimeProcess.waitFor();
+            
+ 
+            if (processComplete == 0) {
+            	
+                JOptionPane.showMessageDialog(null, "Copia de seguridad creada con exito");
+                
+                return true;
+                
+            } else {
+            	
+            	JOptionPane.showMessageDialog(null, "No se ha podido crear la copia de seguridad");
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+ 
+        return false;
+    }
+	
+	
 
 }
