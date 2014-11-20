@@ -307,15 +307,12 @@ public class UIUsuarios extends JPanel {
 		
 		
 		int id=(int) table.getValueAt(table.getSelectedRow(), 0);
-		modelo.addColumn("E-Mail");
-		modelo.addColumn("Departamento");
-		modelo.addColumn("Administrador");
 		String nombre = (String) table.getValueAt(table.getSelectedRow(), 1);
 		String email = (String) table.getValueAt(table.getSelectedRow(), 2);
 		String departamento = (String) table.getValueAt(table.getSelectedRow(), 3);
 		boolean admin;
 		
-		if((table.getValueAt(table.getSelectedRow(), 3)).equals("Si")){
+		if(((String) (table.getValueAt(table.getSelectedRow(), 4))).equals("Si")){	
 			admin = true;
 		} else{
 			admin = false;

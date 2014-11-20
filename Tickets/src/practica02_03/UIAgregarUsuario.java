@@ -34,7 +34,7 @@ public class UIAgregarUsuario extends JDialog {
 	private JPasswordField pass;
 	private JPasswordField pass_rep;
 	private JTextField txt_email;
-	private String[] depart = {"Departamento", "Administració", "Informàtica", "Disseny", "Màrketing"};
+	private String[] depart = {"Elige Dep.", "Administració", "Informàtica", "Disseny", "Màrketing"};
 	private JComboBox comboBox;
 	private JCheckBox chck_admin;
 
@@ -145,7 +145,7 @@ public class UIAgregarUsuario extends JDialog {
 		
 		comboBox = new JComboBox(depart);
 		comboBox.setToolTipText("Introduce el departamento");
-		comboBox.setBounds(146, 119, 111, 20);
+		comboBox.setBounds(146, 119, 112, 20);
 		contentPane.add(comboBox);
 		
 		txt_email = new JTextField();
@@ -207,7 +207,7 @@ public class UIAgregarUsuario extends JDialog {
 					
 					JOptionPane.showMessageDialog(null, "Debe introducir un password");
 					
-				} else if(departamento.equals("Departamento")){
+				} else if(departamento.equals("Elige Dep.")){
 					
 					JOptionPane.showMessageDialog(null, "Falta seleccionar un departamento");
 					

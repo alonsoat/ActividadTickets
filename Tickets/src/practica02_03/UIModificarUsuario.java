@@ -32,7 +32,7 @@ public class UIModificarUsuario extends JDialog {
 	private JPasswordField pass;
 	private JPasswordField pass_rep;
 	private JTextField txt_email;
-	private String[] depart = {"Departamento", "Administració", "Informàtica", "Disseny", "Màrketing"};
+	private String[] depart = {"Elige Dep.", "Administració", "Informàtica", "Disseny", "Màrketing"};
 	private JComboBox comboBox;
 	private JCheckBox chck_admin;
 
@@ -197,8 +197,10 @@ public class UIModificarUsuario extends JDialog {
 		chck_admin.setBounds(147, 143, 97, 23);
 		
 		if(usuario.isAdmin()){
+			System.out.println("Si");
 			chck_admin.setSelected(true);
 		}else{
+			System.out.println("No");
 			chck_admin.setSelected(false);
 		}
 		contentPane.add(chck_admin);
@@ -221,7 +223,7 @@ public class UIModificarUsuario extends JDialog {
 					
 					JOptionPane.showMessageDialog(null, "Debe introducir un password");
 					
-				} else if(departamento.equals("Departamento")){
+				} else if(departamento.equals("Elige Dep.")){
 					
 					JOptionPane.showMessageDialog(null, "Falta seleccionar un departamento");
 					
@@ -232,6 +234,7 @@ public class UIModificarUsuario extends JDialog {
 				} else {
 					
 					Usuario u = new Usuario();
+					u.setId(usuario.getId());
 					u.setNombre(nombre);
 					u.setPass(password);
 					u.setDepartament(departamento);
