@@ -502,7 +502,8 @@ public class UITicket extends JPanel {
 		int id_ticket = (int) table.getValueAt(table.getSelectedRow(), 0);
 		
 		UIMensajes int_mensajes = new UIMensajes(conexion, id_ticket, login, ids_table.get(table.getSelectedRow()));
-		
+		//Actualizar a = new Actualizar();
+		//a.run(int_mensajes, conexion, id_ticket);
 		removeAll();
 		add(int_mensajes, BorderLayout.CENTER);
 		

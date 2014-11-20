@@ -42,7 +42,6 @@ public class UIMensajes extends JPanel {
 	private JTextField txt_mensaje;
 	JPanel panel_central;
 	private JTextField txt_titulo;
-	private boolean actualizar = true;
 	
 	/**
 	 * Create the panel.
@@ -63,6 +62,8 @@ public class UIMensajes extends JPanel {
 		panel_mensaje_c.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Incidencia", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		add(panel_mensaje_c, BorderLayout.SOUTH);
 		panel_mensaje_c.setLayout(new BorderLayout(0, 0));
+		
+		
 		
 		JPanel panel_titulo = new JPanel();
 		panel_titulo.setBackground(Color.WHITE);
@@ -125,11 +126,12 @@ public class UIMensajes extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
-					actualizar=false;
+					
 					removeAll();
 					UITicket uigt = new UITicket(conexion, login);
 					add(uigt);
 					uigt.setVisible(true);
+				//	a.parar();
 					SwingUtilities.updateComponentTreeUI(uigt);
 					
 				} catch (SQLException e) {
@@ -140,10 +142,10 @@ public class UIMensajes extends JPanel {
 			}
 		});
 		
-		//Actualizar a = new Actualizar();
-		//a.run(this, actualizar, conexion, id_ticket);
-		
 		panel_botones.add(btn_Volver);
+		
+		//a = new Actualizar();
+		//a.run(this, conexion, id_ticket);
 		
 	}
 	
