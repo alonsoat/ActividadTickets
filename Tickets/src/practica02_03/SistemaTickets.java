@@ -82,13 +82,12 @@ public class SistemaTickets extends JFrame {
 		JButton btn_copia = new JButton("Hacer copia de seguridad");
 		btn_copia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				UILogin ui = new UILogin();
 				
 					
 					ui.copiaSeguridad();
-					
-					
-					
+				
 			}
 		});
 		menuBar.add(btn_copia);
