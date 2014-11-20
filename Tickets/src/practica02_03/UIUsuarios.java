@@ -60,7 +60,7 @@ public class UIUsuarios extends JPanel {
 		panel_botones.setLayout(new GridLayout(6, 1, 0, 30));
 		
 		
-		btn_agregar = new JButton("Agregar");
+		btn_agregar = new JButton("Crear");
 		btn_agregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					
@@ -74,7 +74,7 @@ public class UIUsuarios extends JPanel {
 		btn_editar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
+				llamarModificarTicket(conexion, login);
 				
 			}
 		});
@@ -295,6 +295,9 @@ public class UIUsuarios extends JPanel {
 	public void llamarAgregarUsuario(Connection conexion){
 		
 		
+		UIAgregarUsuario uia = new UIAgregarUsuario(conexion, this);
+		uia.setVisible(true);
+		deshabilitarBotones();
 		
 		
 	}
@@ -302,34 +305,33 @@ public class UIUsuarios extends JPanel {
 	
 	public void llamarModificarTicket(Connection conexion, Usuario login){
 		
-		/*
+		
 		int id=(int) table.getValueAt(table.getSelectedRow(), 0);
-		String estado = (String) table.getValueAt(table.getSelectedRow(), 1);
-		String fecha_apert = (String) table.getValueAt(table.getSelectedRow(), 2);
-		String fecha_cerr = (String) table.getValueAt(table.getSelectedRow(), 3);
+		modelo.addColumn("E-Mail");
+		modelo.addColumn("Departamento");
+		modelo.addColumn("Administrador");
+		String nombre = (String) table.getValueAt(table.getSelectedRow(), 1);
+		String email = (String) table.getValueAt(table.getSelectedRow(), 2);
+		String departamento = (String) table.getValueAt(table.getSelectedRow(), 3);
+		boolean admin;
 		
+		if((table.getValueAt(table.getSelectedRow(), 3)).equals("Si")){
+			admin = true;
+		} else{
+			admin = false;
+		}
+		
+		Usuario u = new Usuario();
+		u.setId(id);
+		u.setNombre(nombre);
+		u.setMail(email);
+		u.setDepartament(departamento);
+		u.setAdmin(admin);
+		
+		UIModificarUsuario uim = new UIModificarUsuario(conexion, this, u);
+		uim.setVisible(true);
+		deshabilitarBotones();
 	
-		Ticket ticket = new Ticket(id, estado, fecha_apert, fecha_cerr);
-		
-		if(ticket.getEstado().equals("Obert")){
-			
-			ticket.setEstado("Tancat");
-			
-		}else if(ticket.getEstado().equals("Tancat")){
-			
-			ticket.setEstado("Obert");
-			
-		}
-		ticket.actualizar(conexion, login.isAdmin());
-		
-		try {
-			mostrarTabla(conexion);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		deshabilitarBotones();	
-	*/
 		
 	}
 	

@@ -88,7 +88,7 @@ public class UITicket extends JPanel {
 		panel_botones.setLayout(new GridLayout(6, 1, 0, 30));
 		
 		
-		btn_agregar = new JButton("Agregar");
+		btn_agregar = new JButton("Crear");
 		btn_agregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					
