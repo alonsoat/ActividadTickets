@@ -166,10 +166,10 @@ public class UIMensajes extends JPanel {
 			mensaje = mensajes.get(i);
 			
 			usuario = new Usuario();
-
+			
 			usuario.setId(mensaje.getId_usuario());
 			usuario.buscarId(conexion);
-			
+			System.out.println(usuario.getNombre());
 			fila[0] = usuario.getNombre();
 			fila[1] = mensaje.getTitol();
 			fila[2] = mensaje.getText();
