@@ -78,6 +78,21 @@ public class SistemaTickets extends JFrame {
 		});
 		menuBar.add(btnUsuarios);
 		
+		JButton btn_copia = new JButton("Hacer copia de seguridad");
+		btn_copia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+				
+			}
+		});
+		menuBar.add(btn_copia);
+		if(login.isAdmin()){
+			btn_copia.setVisible(true);
+		}else{
+			btn_copia.setVisible(false);
+		}
+		
 		if(login.isAdmin()){
 			btnUsuarios.setVisible(true);
 		} else {

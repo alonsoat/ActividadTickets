@@ -140,8 +140,8 @@ public class UIMensajes extends JPanel {
 			}
 		});
 		
-		Actualizar a = new Actualizar(this, actualizar, conexion, id_ticket);
-		a.run();
+		//Actualizar a = new Actualizar();
+		//a.run(this, actualizar, conexion, id_ticket);
 		
 		panel_botones.add(btn_Volver);
 		

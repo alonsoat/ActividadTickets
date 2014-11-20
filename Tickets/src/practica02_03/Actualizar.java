@@ -5,17 +5,20 @@ import java.sql.SQLException;
 
 public class Actualizar extends Thread{
 	
-	public Actualizar(UIMensajes uim, boolean actualizar, Connection conexion, int id_ticket) throws SQLException{
+	UIMensajes uim;
+	boolean actualizar;
+	
+	public Actualizar() throws SQLException{
 		
-		Actualizar a = new Actualizar(uim, actualizar, conexion, id_ticket);
-		a.run(uim, actualizar, conexion, id_ticket);
+	
 		
 	}
 	
-	public void run(UIMensajes uim, boolean actualizar, Connection conexion, int id_ticket) throws SQLException{
+	public void run(UIMensajes uim, boolean actualizar, Connection conexion, int id_ticket) throws SQLException, InterruptedException{
 		
 		while(actualizar == true){
 			
+			sleep(5000);
 			uim.mostrarTabla(conexion, id_ticket);
 			
 		}
