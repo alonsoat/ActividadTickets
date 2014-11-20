@@ -140,12 +140,9 @@ public class UIMensajes extends JPanel {
 			}
 		});
 		
-		/*new Threadwhile(actualizar == true){
-			
-			mostrarTabla(conexion, id_ticket);
-			Thread.sleep(5000);
-			
-		}*/
+		Actualizar a = new Actualizar(this, actualizar, conexion, id_ticket);
+		a.run();
+		
 		panel_botones.add(btn_Volver);
 		
 	}
