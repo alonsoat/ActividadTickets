@@ -48,7 +48,7 @@ public class UIMensajes extends JPanel {
 	 * @throws SQLException 
 	 */
 	public UIMensajes(final Connection conexion, final int id_ticket, final Usuario login, final int id_usuario) throws SQLException {
-		System.out.println(id_usuario);
+
 		setLayout(new BorderLayout(0, 0));
 		panel_central = new JPanel();
 		panel_central.setLayout(new GridLayout());
@@ -110,7 +110,7 @@ public class UIMensajes extends JPanel {
 		btn_enviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				enviarMensaje(conexion, id_ticket, id_usuario);
+				enviarMensaje(conexion, id_ticket, login.getId());
 				
 			}
 		});
