@@ -50,7 +50,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 
-public class UIGTicket extends JPanel {
+public class UITicket extends JPanel {
 
 	private static final long serialVersionUID = -7508988054079361673L;
 	private JTable table;
@@ -77,7 +77,7 @@ public class UIGTicket extends JPanel {
 	 * @throws SQLException 
 	 * 
 	 */
-	public UIGTicket(final Connection conexion, final Usuario login
+	public UITicket(final Connection conexion, final Usuario login
 			) throws SQLException {
 		setLayout(new BorderLayout(0, 0));
 		this.login = login;

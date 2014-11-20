@@ -43,7 +43,7 @@ public class SistemaTickets extends JFrame {
 		btnTicket.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					UIGTicket uigt = new UIGTicket(conexion, login);
+					UITicket uigt = new UITicket(conexion, login);
 
 					uigt.setVisible(true);
 					contentPane.add(uigt);

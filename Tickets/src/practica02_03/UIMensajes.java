@@ -124,7 +124,7 @@ public class UIMensajes extends JPanel {
 				try {
 				
 					removeAll();
-					UIGTicket uigt = new UIGTicket(conexion, login);
+					UITicket uigt = new UITicket(conexion, login);
 					add(uigt);
 					uigt.setVisible(true);
 					SwingUtilities.updateComponentTreeUI(uigt);

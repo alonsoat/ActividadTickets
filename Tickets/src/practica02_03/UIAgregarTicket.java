@@ -37,7 +37,7 @@ public class UIAgregarTicket extends JDialog {
 	/**
 	 * Create the frame.
 	 */
-	public UIAgregarTicket(final Connection conexion, final UIGTicket uigTicket, final int id) {
+	public UIAgregarTicket(final Connection conexion, final UITicket uigTicket, final int id) {
 		setLocationRelativeTo(uigTicket);
 		setModal(true);
 		setResizable(false);
