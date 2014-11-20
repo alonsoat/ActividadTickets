@@ -110,13 +110,14 @@ public class UsuarioUtil {
 		
 		try{
 			
-			String sql = "SELECT t.id AS id_tick, t.estat, t.data_obri, t. data_tanca, u.* "
+			String sql = "SELECT DISTINCT t.id AS id_tick, t.estat, t.data_obri, t. data_tanca, u.* "
 					+ "FROM usuaris AS u, missatges AS m , tickets AS t "
 					+ "WHERE t.id = m.id_ticket "
 					+ "AND m.id_usuari = u.id "
 					+ "AND t.id = ? "
 					+ "AND t.estat LIKE ? "
-					+ "AND u.departament LIKE ?; ";
+					+ "AND u.departament LIKE ? "
+					+ "ORDER BY t.id; ";
 					//+ "AND u.admin = 0;";
 			
 			preparedStatament = conexion.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -164,12 +165,13 @@ public Usuario getUsuarioTicket(Connection conexion, String depart, String estat
 		
 		try{
 			
-			String sql = "SELECT t.id AS id_tick, t.estat, t.data_obri, t. data_tanca, u.* "
+			String sql = "SELECT DISTINCT t.id AS id_tick, t.estat, t.data_obri, t. data_tanca, u.* "
 					+ "FROM usuaris AS u, missatges AS m , tickets AS t "
 					+ "WHERE t.id = m.id_ticket "
 					+ "AND m.id_usuari = u.id "
 					+ "AND t.estat LIKE ? "
-					+ "AND u.departament LIKE ?; ";
+					+ "AND u.departament LIKE ? "
+					+ "ORDER BY t.id; ";
 					//+ "AND u.admin = 0;";
 			
 			preparedStatament = conexion.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
