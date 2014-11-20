@@ -75,7 +75,9 @@ public class UIMensajes extends JPanel {
 		JButton btn_mostrar = new JButton("Mostrar Mensaje");
 		btn_mostrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "[Titulo]\n" + table.getValueAt(table.getSelectedRow(), 1) + "\n\n[Mensaje]\n" + table.getValueAt(table.getSelectedRow(), 2));
+				if(!(table.getSelectedRow() == -1)){
+					JOptionPane.showMessageDialog(null, "[Titulo]\n" + table.getValueAt(table.getSelectedRow(), 1) + "\n\n[Mensaje]\n" + table.getValueAt(table.getSelectedRow(), 2));
+				}
 			}
 		});
 		panel_titulo.add(btn_mostrar, BorderLayout.EAST);

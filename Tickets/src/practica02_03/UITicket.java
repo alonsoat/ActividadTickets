@@ -289,6 +289,8 @@ public class UITicket extends JPanel {
 		
 		mostrarTabla(conexion);
 		
+		SwingUtilities.updateComponentTreeUI(this);
+		
 		
 	}
 	

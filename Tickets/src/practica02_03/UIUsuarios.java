@@ -167,7 +167,7 @@ public class UIUsuarios extends JPanel {
 		
 		mostrarTabla(conexion);
 		
-		
+		SwingUtilities.updateComponentTreeUI(this);
 	}
 	
 	public void mostrarTabla(Connection conexion) throws SQLException{
