@@ -70,6 +70,7 @@ public class UITicket extends JPanel {
 	private JButton btn_modificar;
 	private JButton btn_agregar;
 	private Usuario login;
+	private JButton btn_act;
 	
 	
 	/**
@@ -149,9 +150,9 @@ public class UITicket extends JPanel {
 		panel_filtro.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Filtro", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		add(panel_filtro, BorderLayout.NORTH);
 		GridBagLayout gbl_panel_filtro = new GridBagLayout();
-		gbl_panel_filtro.columnWidths = new int[] {90, 258, 160, 0, 0, 0};
+		gbl_panel_filtro.columnWidths = new int[] {90, 258, 160, 0, 0, 0, 0};
 		gbl_panel_filtro.rowHeights = new int[] {50};
-		gbl_panel_filtro.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_filtro.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_filtro.rowWeights = new double[]{0.0};
 		panel_filtro.setLayout(gbl_panel_filtro);
 		
@@ -287,6 +288,25 @@ public class UITicket extends JPanel {
 			}
 		});
 		panel_departa.add(comb_depart);
+		
+		btn_act = new JButton("Actualizar");
+		btn_act.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					mostrarTabla(conexion);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		GridBagConstraints gbc_btn_act = new GridBagConstraints();
+		gbc_btn_act.insets = new Insets(0, 0, 0, 5);
+		gbc_btn_act.gridx = 4;
+		gbc_btn_act.gridy = 0;
+		panel_filtro.add(btn_act, gbc_btn_act);
 		panel_central = new JPanel(new GridLayout());
 		add(panel_central, BorderLayout.CENTER);
 		

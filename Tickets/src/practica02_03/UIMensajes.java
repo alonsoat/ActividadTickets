@@ -75,7 +75,27 @@ public class UIMensajes extends JPanel {
 		panel_titulo.add(txt_titulo, BorderLayout.CENTER);
 		txt_titulo.setColumns(30);
 		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		panel_titulo.add(panel, BorderLayout.EAST);
+		
 		JButton btn_mostrar = new JButton("Mostrar Mensaje");
+		panel.add(btn_mostrar);
+		
+		JButton btn_actualizar = new JButton("Actualizar");
+		btn_actualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					mostrarTabla(conexion, id_ticket);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		panel.add(btn_actualizar);
 		btn_mostrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!(table.getSelectedRow() == -1)){
@@ -83,7 +103,6 @@ public class UIMensajes extends JPanel {
 				}
 			}
 		});
-		panel_titulo.add(btn_mostrar, BorderLayout.EAST);
 		
 		JPanel panel_mensaje = new JPanel();
 		panel_mensaje.setBackground(Color.WHITE);
