@@ -48,7 +48,7 @@ public class UIMensajes extends JPanel {
 	 * @throws SQLException 
 	 */
 	public UIMensajes(final Connection conexion, final int id_ticket, final Usuario login, final int id_usuario) throws SQLException {
-		
+		System.out.println(id_usuario);
 		setLayout(new BorderLayout(0, 0));
 		panel_central = new JPanel();
 		panel_central.setLayout(new GridLayout());
@@ -93,7 +93,7 @@ public class UIMensajes extends JPanel {
 				
 				if(e.getKeyCode()==KeyEvent.VK_ENTER){
 				
-					enviarMensaje(conexion, id_ticket, id_usuario);
+					enviarMensaje(conexion, id_ticket, login.getId());
 					
 				}
 			}
@@ -166,10 +166,10 @@ public class UIMensajes extends JPanel {
 			mensaje = mensajes.get(i);
 			
 			usuario = new Usuario();
-			
+
 			usuario.setId(mensaje.getId_usuario());
 			usuario.buscarId(conexion);
-			System.out.println(usuario.getNombre());
+			
 			fila[0] = usuario.getNombre();
 			fila[1] = mensaje.getTitol();
 			fila[2] = mensaje.getText();
