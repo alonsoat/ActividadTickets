@@ -31,8 +31,8 @@ public class UILogin extends JFrame {
 	
 	private static Connection conexion;
 	private String bbdd = "tickets";
-	private String usuari = "root";
-	private String pass = "";
+	private String usuari = "tickets";
+	private String pass = "1234";
 
 	/**
 	 * Launch the application.
