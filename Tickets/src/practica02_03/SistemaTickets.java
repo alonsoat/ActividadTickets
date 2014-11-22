@@ -92,9 +92,11 @@ public class SistemaTickets extends JFrame {
 				UsuarioUtil ui = new UsuarioUtil();
 				TicketUtil tu = new TicketUtil();
 				
-				mu.copiaSeguridadMensajes(conexion);
-				ui.copiaSeguridadMensajes(conexion);
-				tu.copiaSeguridadMensajes(conexion);
+				String ruta = preguntarRuta();
+				
+				mu.copiaSeguridadMensajes(conexion, ruta);
+				ui.copiaSeguridadMensajes(conexion, ruta);
+				tu.copiaSeguridadMensajes(conexion, ruta);
 				
 				
 			}
@@ -119,6 +121,14 @@ public class SistemaTickets extends JFrame {
 		setContentPane(contentPane);
 	}
 	
+	
+	public String preguntarRuta(){
+		
+		
+		return JOptionPane.showInputDialog(null,"Ruta donde desea la copía de seguirdad");
+		
+		
+	}
 	
 	
 }

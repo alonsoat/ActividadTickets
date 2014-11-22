@@ -55,36 +55,45 @@ public class MensajeUtil {
 		
 	}
 	
-	public static void copiaSeguridadMensajes(Connection conexion){
+	public static void copiaSeguridadMensajes(Connection conexion, String ruta){
 		
+		String barra = "";
 		
-		try{
-			
-			String sql = "SELECT  id,titol "
-						+ "FROM missatges "
-						+ "INTO OUTFILE ? "
-						+ "FIELDS TERMINATED BY ? "
-						+ "ENCLOSED BY ? "
-						+"LINES TERMINATED BY ?";
-
-			preparedStatament = conexion.prepareStatement(sql);
-			
-			preparedStatament.setString(1, "C:\\xampp\\copiaMensajes.csv");
-			preparedStatament.setString(2,",");
-			preparedStatament.setString(3, "\"");
-			preparedStatament.setString(4, "\n");
-			
-			
-			
-			ResultSet rs = preparedStatament.executeQuery();
+		if(ruta != null){
 		
-		
-		}catch(SQLException ex){
+			if(ruta.contains("/")){
+				barra = "/";
+			}else if(ruta.contains("\\")){
+				barra = "\\\\";
+			}
 			
-			System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError haciendo copia de seguridad de  mensajes");
+			try{
+				
+				String sql = "SELECT  id,titol "
+							+ "FROM missatges "
+							+ "INTO OUTFILE ? "
+							+ "FIELDS TERMINATED BY ? "
+							+ "ENCLOSED BY ? "
+							+"LINES TERMINATED BY ?";
+	
+				preparedStatament = conexion.prepareStatement(sql);
+				
+				preparedStatament.setString(1, ruta + barra + "copiaMensajes.csv");
+				preparedStatament.setString(2,",");
+				preparedStatament.setString(3, "\"");
+				preparedStatament.setString(4, "\n");
+				
+				
+				
+				ResultSet rs = preparedStatament.executeQuery();
 			
+			
+			}catch(SQLException ex){
+				
+				System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError haciendo copia de seguridad de  mensajes");
+				
+			}
 		}
-		
 	}
 	
 	

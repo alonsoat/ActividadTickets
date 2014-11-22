@@ -216,36 +216,45 @@ public Usuario getUsuarioTicket(Connection conexion, String depart, String estat
 	}	
 
 
-public static void copiaSeguridadMensajes(Connection conexion){
+public static void copiaSeguridadMensajes(Connection conexion, String ruta){
 	
+	String barra = "";
 	
-	try{
+	if(ruta != null){
+		if(ruta.contains("/")){
+			barra = "/";
+		}else if(ruta.contains("\\")){
+			barra = "\\\\";
+		}
 		
-		String sql = "SELECT * "
-					+ "FROM usuaris "
-					+ "INTO OUTFILE ? "
-					+ "FIELDS TERMINATED BY ? "
-					+ "ENCLOSED BY ? "
-					+"LINES TERMINATED BY ?";
-
-		preparedStatament = conexion.prepareStatement(sql);
-		
-		preparedStatament.setString(1, "C:\\xampp\\copiaUsuarios.csv");
-		preparedStatament.setString(2,",");
-		preparedStatament.setString(3, "\"");
-		preparedStatament.setString(4, "\n");
-		
-		
-		
-		ResultSet rs = preparedStatament.executeQuery();
+		try{
+			
+			String sql = "SELECT * "
+						+ "FROM usuaris "
+						+ "INTO OUTFILE ? "
+						+ "FIELDS TERMINATED BY ? "
+						+ "ENCLOSED BY ? "
+						+"LINES TERMINATED BY ?";
 	
-	
-	}catch(SQLException ex){
+			preparedStatament = conexion.prepareStatement(sql);
+			
+			preparedStatament.setString(1,  ruta + barra + "copiaUsuarios.csv");
+			preparedStatament.setString(2,",");
+			preparedStatament.setString(3, "\"");
+			preparedStatament.setString(4, "\n");
+			
+			
+			
+			ResultSet rs = preparedStatament.executeQuery();
 		
-		System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError haciendo copia de seguridad de los Usuarios");
+		
+		}catch(SQLException ex){
+			
+			System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError haciendo copia de seguridad de los Usuarios");
+			
+		}
 		
 	}
-	
 }
 
 	

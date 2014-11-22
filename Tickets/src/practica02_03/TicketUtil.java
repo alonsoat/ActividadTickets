@@ -23,7 +23,7 @@ public class TicketUtil {
 					+ "AND m.id_usuari = u.id "
 					+ "AND t.id = ? "
 					+ "AND t.estat LIKE ? "
-					+ "AND u.admin = 0;"
+					+ "AND u.admin = 0 "
 					+ "AND u.departament LIKE ? "
 					+ "ORDER BY t.id; ";
 					
@@ -76,7 +76,7 @@ public class TicketUtil {
 					+ "AND t.estat LIKE ? "
 					+ "AND u.departament LIKE ? "
 					+ "AND u.admin = 0 "
-					+ "ORDER BY t.id; ";
+					+ "ORDER BY t.id;";
 			
 			preparedStatament = conexion.prepareStatement(sql);
 			
@@ -213,34 +213,43 @@ public ArrayList<Ticket> buscar(Connection conexion,int busqueda, String activa,
 	}
 	
 	
-public static void copiaSeguridadMensajes(Connection conexion){
+public static void copiaSeguridadMensajes(Connection conexion, String ruta){
 		
+		String barra = "";
+	
+		if(ruta != null){
+			if(ruta.contains("/")){
+				barra = "/";
+			}else if(ruta.contains("\\")){
+				barra = "\\\\";
+			}
 		
-		try{
+			try{
+				
+				String sql = "SELECT  * "
+							+ "FROM tickets "
+							+ "INTO OUTFILE ? "
+							+ "FIELDS TERMINATED BY ? "
+							+ "ENCLOSED BY ? "
+							+"LINES TERMINATED BY ?";
+	
+				preparedStatament = conexion.prepareStatement(sql);
+				
+				preparedStatament.setString(1, ruta + barra + "copiaTickets.csv");
+				preparedStatament.setString(2,",");
+				preparedStatament.setString(3, "\"");
+				preparedStatament.setString(4, "\n");
+				
+				
+				
+				ResultSet rs = preparedStatament.executeQuery();
 			
-			String sql = "SELECT  * "
-						+ "FROM tickets "
-						+ "INTO OUTFILE ? "
-						+ "FIELDS TERMINATED BY ? "
-						+ "ENCLOSED BY ? "
-						+"LINES TERMINATED BY ?";
-
-			preparedStatament = conexion.prepareStatement(sql);
 			
-			preparedStatament.setString(1, "C:\\xampp\\copiaTickets.csv");
-			preparedStatament.setString(2,",");
-			preparedStatament.setString(3, "\"");
-			preparedStatament.setString(4, "\n");
-			
-			
-			
-			ResultSet rs = preparedStatament.executeQuery();
-		
-		
-		}catch(SQLException ex){
-			
-			System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError haciendo copia de seguridad de los tickets");
-			
+			}catch(SQLException ex){
+				
+				System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError haciendo copia de seguridad de los tickets");
+				
+			}
 		}
 		
 	}
