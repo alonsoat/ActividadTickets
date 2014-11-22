@@ -83,10 +83,19 @@ public class SistemaTickets extends JFrame {
 		btn_copia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				UILogin ui = new UILogin();
+				/*UILogin ui = new UILogin();
 				
 					
-					ui.copiaSeguridad();
+					ui.copiaSeguridad();*/
+				
+				MensajeUtil mu = new MensajeUtil();
+				UsuarioUtil ui = new UsuarioUtil();
+				TicketUtil tu = new TicketUtil();
+				
+				mu.copiaSeguridadMensajes(conexion);
+				ui.copiaSeguridadMensajes(conexion);
+				tu.copiaSeguridadMensajes(conexion);
+				
 				
 			}
 		});

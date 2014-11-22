@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class TicketUtil {
 	
-	private PreparedStatement preparedStatament = null;
+	private static PreparedStatement preparedStatament = null;
 	
 	public ArrayList<Ticket> buscar(Connection conexion,int busqueda, String activa, String depart){
 		
@@ -211,6 +211,40 @@ public ArrayList<Ticket> buscar(Connection conexion,int busqueda, String activa,
 		return tickets;
 				
 	}
+	
+	
+public static void copiaSeguridadMensajes(Connection conexion){
+		
+		
+		try{
+			
+			String sql = "SELECT  * "
+						+ "FROM tickets "
+						+ "INTO OUTFILE ? "
+						+ "FIELDS TERMINATED BY ? "
+						+ "ENCLOSED BY ? "
+						+"LINES TERMINATED BY ?";
+
+			preparedStatament = conexion.prepareStatement(sql);
+			
+			preparedStatament.setString(1, "C:\\xampp\\copiaTickets.csv");
+			preparedStatament.setString(2,",");
+			preparedStatament.setString(3, "\"");
+			preparedStatament.setString(4, "\n");
+			
+			
+			
+			ResultSet rs = preparedStatament.executeQuery();
+		
+		
+		}catch(SQLException ex){
+			
+			System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError haciendo copia de seguridad de los tickets");
+			
+		}
+		
+	}
+	
 
 	
 

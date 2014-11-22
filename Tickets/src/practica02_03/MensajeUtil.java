@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class MensajeUtil {
 	
-	private PreparedStatement preparedStatament = null;
+	private static PreparedStatement preparedStatament = null;
 	
 	public ArrayList<Mensaje> mostarMensajes(Connection conexion,int id_tickets){
 		
@@ -54,6 +54,39 @@ public class MensajeUtil {
 		return mensajes;
 		
 	}
+	
+	public static void copiaSeguridadMensajes(Connection conexion){
+		
+		
+		try{
+			
+			String sql = "SELECT  id,titol "
+						+ "FROM missatges "
+						+ "INTO OUTFILE ? "
+						+ "FIELDS TERMINATED BY ? "
+						+ "ENCLOSED BY ? "
+						+"LINES TERMINATED BY ?";
+
+			preparedStatament = conexion.prepareStatement(sql);
+			
+			preparedStatament.setString(1, "C:\\xampp\\copiaMensajes.csv");
+			preparedStatament.setString(2,",");
+			preparedStatament.setString(3, "\"");
+			preparedStatament.setString(4, "\n");
+			
+			
+			
+			ResultSet rs = preparedStatament.executeQuery();
+		
+		
+		}catch(SQLException ex){
+			
+			System.err.println(ex.getErrorCode() + " ," + ex.getMessage() + " ," + ex.getSQLState() + "\nError haciendo copia de seguridad de  mensajes");
+			
+		}
+		
+	}
+	
 	
 
 }

@@ -183,7 +183,7 @@ public class UILogin extends JFrame {
 	
 	public boolean copiaSeguridad() {
 		 
-        String executeCmd = "C:\\xampp\\mysql\\bin\\mysqldump -u tickets -p 1234  -B tickets -r C:\\baseDatos.csv ";
+        String executeCmd = "C:\\xampp\\mysql\\bin\\mysqldump.exe -u root -p  --add-drop-database -B tickets -r C:\\xampp\\prueba2.txt ";
         Process runtimeProcess;
         
         try {
