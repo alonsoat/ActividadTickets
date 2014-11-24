@@ -122,6 +122,21 @@ public class UIModificarUsuario extends JDialog {
 		contentPane.add(pass);
 
 		pass_rep = new JPasswordField();
+		pass_rep.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				
+				if (!new String(pass.getPassword()).equals(new String(pass_rep
+						.getPassword()))) {
+
+					JOptionPane.showMessageDialog(null,
+							"El password no coincide con el anterior");
+					pass_rep.setText("");
+
+				}
+				
+			}
+		});
 		pass_rep.setToolTipText("Vuelve a introducir el password");
 		pass_rep.setEnabled(false);
 		pass_rep.addKeyListener(new KeyAdapter() {
@@ -130,12 +145,12 @@ public class UIModificarUsuario extends JDialog {
 
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
-					if (!new String(pass.getPassword()).equals(new String(pass
+					if (!new String(pass.getPassword()).equals(new String(pass_rep
 							.getPassword()))) {
 
 						JOptionPane.showMessageDialog(null,
 								"El password no coincide con el anterior");
-						pass.setText("");
+						pass_rep.setText("");
 
 					}
 

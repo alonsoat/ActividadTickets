@@ -129,17 +129,33 @@ public class UIAgregarUsuario extends JDialog {
 
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
-					if (!new String(pass.getPassword()).equals(new String(pass
+					if (!new String(pass.getPassword()).equals(new String(pass_rep
 							.getPassword()))) {
 
 						JOptionPane.showMessageDialog(null,
 								"El password no coincide con el anterior");
-						pass.setText("");
+						pass_rep.setText("");
 
 					}
 
 				}
 
+			}
+		});
+		
+		pass_rep.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				
+				if (!new String(pass.getPassword()).equals(new String(pass_rep
+						.getPassword()))) {
+
+					JOptionPane.showMessageDialog(null,
+							"El password no coincide con el anterior");
+					pass_rep.setText("");
+
+				}
+				
 			}
 		});
 		pass_rep.setBounds(147, 69, 220, 20);
