@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class TicketUtil {
 
 	private static PreparedStatement preparedStatament = null;
@@ -233,6 +235,9 @@ public class TicketUtil {
 				System.err.println(ex.getErrorCode() + " ," + ex.getMessage()
 						+ " ," + ex.getSQLState()
 						+ "\nError haciendo copia de seguridad de los tickets");
+				
+
+				JOptionPane.showMessageDialog(null, "No tienes permisos para crear en esa ruta");
 
 			}
 		}

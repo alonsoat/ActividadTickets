@@ -1,10 +1,13 @@
 package practica02_03;
 
+import java.security.Permission;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 public class UsuarioUtil {
 
@@ -239,6 +242,7 @@ public class UsuarioUtil {
 				ResultSet rs = preparedStatament.executeQuery();
 				rs.close();
 				preparedStatament.close();
+				
 			} catch (SQLException ex) {
 
 				System.err
@@ -248,6 +252,8 @@ public class UsuarioUtil {
 								+ " ,"
 								+ ex.getSQLState()
 								+ "\nError haciendo copia de seguridad de los Usuarios");
+				
+				JOptionPane.showMessageDialog(null, "No tienes permisos para crear en esa ruta");
 
 			}
 
