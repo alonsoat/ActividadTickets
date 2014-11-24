@@ -105,6 +105,9 @@ public class UITicket extends JPanel {
 		panel_botones.add(btn_agregar);
 
 		btn_modificar = new JButton("Modificar");
+		if(!login.isAdmin()){
+			btn_modificar.setVisible(false);
+		}
 		btn_modificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -112,10 +115,34 @@ public class UITicket extends JPanel {
 
 			}
 		});
+		
+				btn_MostrarMensajes = new JButton("Mensajes");
+				btn_MostrarMensajes.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+
+						try {
+							llamarMensajesTicket(conexion);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+					}
+				});
+				btn_MostrarMensajes.setEnabled(false);
+				panel_botones.add(btn_MostrarMensajes);
 		btn_modificar.setEnabled(false);
 		panel_botones.add(btn_modificar);
 
 		btn_eliminar = new JButton("Eliminar");
+		
+		if(!login.isAdmin()){
+			btn_eliminar.setVisible(false);
+		}
+		
 		btn_eliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -130,25 +157,6 @@ public class UITicket extends JPanel {
 		});
 		btn_eliminar.setEnabled(false);
 		panel_botones.add(btn_eliminar);
-
-		btn_MostrarMensajes = new JButton("Mensajes");
-		btn_MostrarMensajes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				try {
-					llamarMensajesTicket(conexion);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-			}
-		});
-		btn_MostrarMensajes.setEnabled(false);
-		panel_botones.add(btn_MostrarMensajes);
 
 		JPanel panel_filtro = new JPanel();
 		panel_filtro.setBackground(Color.WHITE);
@@ -575,6 +583,7 @@ public class UITicket extends JPanel {
 				btn_modificar.setEnabled(true);
 				btn_modificar.setText("Reabrir");
 			} else if (estado_consulta.equals("Tancat") && !login.isAdmin()) {
+				btn_modificar.setVisible(false);
 				btn_modificar.setEnabled(false);
 				btn_modificar.setText("Reabrir");
 			}
@@ -582,12 +591,14 @@ public class UITicket extends JPanel {
 			// Modificar si al final usuario puede cerrar
 			if (!login.isAdmin()) {
 				btn_modificar.setEnabled(false);
+				btn_modificar.setVisible(false);
 			}
 
 			if (login.isAdmin()) {
 				btn_eliminar.setEnabled(true);
 			} else {
 				btn_eliminar.setEnabled(false);
+				btn_eliminar.setVisible(false);
 			}
 
 			if (estado_consulta.equals("Tancat")) {
