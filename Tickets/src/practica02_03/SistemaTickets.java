@@ -123,7 +123,7 @@ public class SistemaTickets extends JFrame {
 	public String preguntarRuta() {
 
 		return JOptionPane.showInputDialog(null,
-				"Ruta donde desea la copía de seguirdad:");
+				"Ruta donde desea la copía de seguridad:");
 
 	}
 
